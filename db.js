@@ -53,6 +53,7 @@ function upgradeSite(saved) {
   }
 
   site.cognitive = deepMerge(defaultSite.cognitive, site.cognitive || {});
+  site.styles = site.styles || {};
   return site;
 }
 

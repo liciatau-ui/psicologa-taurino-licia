@@ -126,6 +126,7 @@ const defaultSite = {
       { title: "Emozioni nei bambini", text: "Riconoscere, nominare e gestire le emozioni nella quotidianità." }
     ]
   },
+  styles: {},
   contact: {
     visible: true,
     layout: "cards",
