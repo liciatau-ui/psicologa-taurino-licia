@@ -17,7 +17,7 @@ const defaultSite = {
     email: "info@psicologataurinolicia.it",
     address: "Inserisci indirizzo studio",
     city: "Leverano / Lecce",
-    albo: "Iscrizione Albo da inserire",
+    albo: "Iscrizione nr. 8233",
     piva: "P.IVA da inserire",
     instagram: "liciataurino.psicologa",
     instagramUrl: "https://www.instagram.com/liciataurino.psicologa/"
@@ -36,7 +36,7 @@ const defaultSite = {
     subtitle: "La Dott.ssa Taurino Licia accompagna bambini, adolescenti, genitori e adulti in percorsi di ascolto, valutazione e sostegno psicologico, con un approccio accogliente, chiaro e personalizzato.",
     primaryButton: "Prenota un colloquio",
     secondaryButton: "Scopri i percorsi",
-    image: "",
+    image: "/img/licia-taurino.jpg",
     visible: true
   },
   services: {

@@ -24,6 +24,7 @@ function applyRequestedUpdates(site) {
   site.settings = site.settings || {};
   site.settings.phone = "+39 392 522 9478";
   site.settings.whatsapp = "393925229478";
+  site.settings.albo = "Iscrizione nr. 8233";
   site.settings.instagram = "liciataurino.psicologa";
   site.settings.instagramUrl = "https://www.instagram.com/liciataurino.psicologa/";
 
@@ -35,7 +36,11 @@ function applyRequestedUpdates(site) {
     else site.nav.push(newItem);
   }
 
+  site.about = site.about || {};
+  site.about.image = "/img/licia-taurino.jpg";
+  site.about.text = site.about.text || "Psicologa con esperienza nel supporto psicologico, nella valutazione e negli interventi rivolti a bambini, adulti e anziani. Mi occupo di stimolazione cognitiva, difficoltà emotive e supporto alle famiglie.";
   site.cognitive = site.cognitive || defaultSite.cognitive;
+
   return site;
 }
 
