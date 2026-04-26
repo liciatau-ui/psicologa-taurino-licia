@@ -40,10 +40,10 @@
 
     <nav class="nav glass menu-<%= site.settings.menuPosition || 'center' %>">
       <a class="brand" href="#home">
-        <span class="brand-logo"><%= site.settings.logoText %></span>
+        <span class="brand-logo" data-edit-type="text" data-edit-path="settings.logoText"><%= site.settings.logoText %></span>
         <span>
-          <small><%= site.settings.profession || 'Psicologa' %></small>
-          <strong><%= site.settings.siteName %></strong>
+          <small data-edit-type="text" data-edit-path="settings.profession"><%= site.settings.profession || 'Psicologa' %></small>
+          <strong data-edit-type="text" data-edit-path="settings.siteName"><%= site.settings.siteName %></strong>
         </span>
       </a>
 
@@ -61,9 +61,9 @@
     <% if(site.hero.visible){ %>
     <section class="hero-grid container editable-align hero-layout-<%= site.hero.layout || 'text-left' %>">
       <div class="hero-copy reveal">
-        <p class="eyebrow"><%= site.hero.eyebrow %></p>
-        <h1><%= site.hero.title %></h1>
-        <p class="lead"><%= site.hero.subtitle %></p>
+        <p class="eyebrow" data-edit-type="text" data-edit-path="hero.eyebrow"><%= site.hero.eyebrow %></p>
+        <h1 data-edit-type="text" data-edit-path="hero.title"><%= site.hero.title %></h1>
+        <p class="lead" data-edit-type="text" data-edit-path="hero.subtitle"><%= site.hero.subtitle %></p>
         <div class="actions">
           <a class="btn" href="<%= waLink %>" target="_blank" rel="noopener">💬 <%= site.hero.primaryButton %></a>
           <a class="btn ghost" href="#servizi"><%= site.hero.secondaryButton %> →</a>
@@ -72,7 +72,7 @@
 
       <div class="hero-card reveal delay">
         <% if(site.hero.image){ %>
-          <img src="<%= site.hero.image %>" alt="<%= site.settings.siteName %>" style="object-position:<%= site.hero.imagePosition || 'center top' %>">
+          <img data-edit-type="image" data-edit-path="hero.image" src="<%= site.hero.image %>" alt="<%= site.settings.siteName %>" style="object-position:<%= site.hero.imagePosition || 'center top' %>">
         <% } else { %>
           <div class="portrait-placeholder">ψ</div>
         <% } %>
@@ -102,8 +102,8 @@
           <% site.parents.items.forEach(function(item){ %>
           <article class="parent-card">
             <span>✓</span>
-            <h3><%= item.title %></h3>
-            <p><%= item.text %></p>
+            <h3 data-edit-type="text" data-edit-path="cognitive.items.<%= site.cognitive.items.indexOf(item) %>.title"><%= item.title %></h3>
+            <p data-edit-type="text" data-edit-path="cognitive.items.<%= site.cognitive.items.indexOf(item) %>.text"><%= item.text %></p>
           </article>
           <% }) %>
         </div>
@@ -116,16 +116,16 @@
     <% if(site.services.visible){ %>
     <section class="section container" id="servizi">
       <div class="section-head">
-        <p class="eyebrow"><%= site.services.eyebrow %></p>
-        <h2><%= site.services.title %></h2>
-        <% if(site.services.text){ %><p class="lead narrow"><%= site.services.text %></p><% } %>
+        <p class="eyebrow" data-edit-type="text" data-edit-path="services.eyebrow"><%= site.services.eyebrow %></p>
+        <h2 data-edit-type="text" data-edit-path="services.title"><%= site.services.title %></h2>
+        <% if(site.services.text){ %><p class="lead narrow" data-edit-type="text" data-edit-path="services.text"><%= site.services.text %></p><% } %>
       </div>
       <div class="cards <%= site.services.layout === 'grid-3' ? 'three' : 'four' %>">
         <% site.services.items.forEach(function(s){ %>
         <article class="card">
           <span class="icon">✦</span>
-          <h3><%= s.title %></h3>
-          <p><%= s.text %></p>
+          <h3 data-edit-type="text" data-edit-path="services.items.<%= site.services.items.indexOf(s) %>.title"><%= s.title %></h3>
+          <p data-edit-type="text" data-edit-path="services.items.<%= site.services.items.indexOf(s) %>.text"><%= s.text %></p>
         </article>
         <% }) %>
       </div>
@@ -138,9 +138,9 @@
     <section class="section dark" id="bes">
       <div class="container split">
         <div>
-          <p class="eyebrow"><%= site.bes.eyebrow %></p>
-          <h2><%= site.bes.title %></h2>
-          <p class="lead"><%= site.bes.text %></p>
+          <p class="eyebrow" data-edit-type="text" data-edit-path="bes.eyebrow"><%= site.bes.eyebrow %></p>
+          <h2 data-edit-type="text" data-edit-path="bes.title"><%= site.bes.title %></h2>
+          <p class="lead" data-edit-type="text" data-edit-path="bes.text"><%= site.bes.text %></p>
         </div>
         <div class="chips">
           <% site.bes.items.forEach(function(item){ %><span>✓ <%= item %></span><% }) %>
@@ -154,16 +154,16 @@
     <% if(site.cognitive && site.cognitive.visible){ %>
     <section class="section container cognitive-section" id="stimolazione">
       <div class="section-head">
-        <p class="eyebrow"><%= site.cognitive.eyebrow %></p>
-        <h2><%= site.cognitive.title %></h2>
-        <p class="lead narrow"><%= site.cognitive.text %></p>
+        <p class="eyebrow" data-edit-type="text" data-edit-path="cognitive.eyebrow"><%= site.cognitive.eyebrow %></p>
+        <h2 data-edit-type="text" data-edit-path="cognitive.title"><%= site.cognitive.title %></h2>
+        <p class="lead narrow" data-edit-type="text" data-edit-path="cognitive.text"><%= site.cognitive.text %></p>
       </div>
       <div class="cards three neuro-cards">
         <% site.cognitive.items.forEach(function(item){ %>
         <article class="card neuro-card">
           <span class="icon">🧠</span>
-          <h3><%= item.title %></h3>
-          <p><%= item.text %></p>
+          <h3 data-edit-type="text" data-edit-path="cognitive.items.<%= site.cognitive.items.indexOf(item) %>.title"><%= item.title %></h3>
+          <p data-edit-type="text" data-edit-path="cognitive.items.<%= site.cognitive.items.indexOf(item) %>.text"><%= item.text %></p>
         </article>
         <% }) %>
       </div>
@@ -176,20 +176,20 @@
     <section class="section container split about-section about-layout-<%= site.about.layout || 'photo-left' %>" id="chi-sono">
       <div class="about-profile-card">
         <% if(site.about.image){ %>
-          <img src="<%= site.about.image %>" alt="<%= site.about.name || 'Licia Taurino' %>" style="object-position:<%= site.about.imagePosition || 'center top' %>">
+          <img data-edit-type="image" data-edit-path="about.image" src="<%= site.about.image %>" alt="<%= site.about.name || 'Licia Taurino' %>" style="object-position:<%= site.about.imagePosition || 'center top' %>">
         <% } else { %>
           <div class="portrait-placeholder small">LT</div>
         <% } %>
         <div class="about-profile-text">
-          <h3><%= site.about.name || 'LICIA TAURINO' %></h3>
-          <% if(site.about.subtitle){ %><p><%= site.about.subtitle %></p><% } %>
-          <p><%= site.about.alboText || site.settings.albo %></p>
+          <h3 data-edit-type="text" data-edit-path="about.name"><%= site.about.name || 'LICIA TAURINO' %></h3>
+          <% if(site.about.subtitle){ %><p data-edit-type="text" data-edit-path="about.subtitle"><%= site.about.subtitle %></p><% } %>
+          <p data-edit-type="text" data-edit-path="about.alboText"><%= site.about.alboText || site.settings.albo %></p>
         </div>
       </div>
       <div class="about-copy">
-        <p class="eyebrow"><%= site.about.eyebrow %></p>
-        <h2><%= site.about.title %></h2>
-        <p class="lead"><%= site.about.text %></p>
+        <p class="eyebrow" data-edit-type="text" data-edit-path="about.eyebrow"><%= site.about.eyebrow %></p>
+        <h2 data-edit-type="text" data-edit-path="about.title"><%= site.about.title %></h2>
+        <p class="lead" data-edit-type="text" data-edit-path="about.text"><%= site.about.text %></p>
       </div>
     </section>
     <% } %>
@@ -200,9 +200,9 @@
     <section class="section container" id="percorso">
       <div class="process-box">
         <div>
-          <p class="eyebrow"><%= site.process.eyebrow %></p>
-          <h2><%= site.process.title %></h2>
-          <p><%= site.process.text %></p>
+          <p class="eyebrow" data-edit-type="text" data-edit-path="process.eyebrow"><%= site.process.eyebrow %></p>
+          <h2 data-edit-type="text" data-edit-path="process.title"><%= site.process.title %></h2>
+          <p data-edit-type="text" data-edit-path="process.text"><%= site.process.text %></p>
         </div>
         <div class="steps">
           <% site.process.items.forEach(function(step, i){ %>
@@ -259,8 +259,8 @@
           </div>
           <div class="bootcamp-info">
             <small><%= item.period %></small>
-            <h3><%= item.title %></h3>
-            <p><%= item.text %></p>
+            <h3 data-edit-type="text" data-edit-path="cognitive.items.<%= site.cognitive.items.indexOf(item) %>.title"><%= item.title %></h3>
+            <p data-edit-type="text" data-edit-path="cognitive.items.<%= site.cognitive.items.indexOf(item) %>.text"><%= item.text %></p>
             <a href="<%= waLink %>" target="_blank" rel="noopener">Richiedi informazioni →</a>
           </div>
         </article>
@@ -275,37 +275,36 @@
     <section class="section contact" id="contatti">
       <div class="container">
         <div class="section-head">
-          <p class="eyebrow"><%= site.contact.eyebrow %></p>
-          <h2><%= site.contact.title %></h2>
-          <p class="lead narrow"><%= site.contact.text %></p>
+          <p class="eyebrow" data-edit-type="text" data-edit-path="contact.eyebrow"><%= site.contact.eyebrow %></p>
+          <h2 data-edit-type="text" data-edit-path="contact.title"><%= site.contact.title %></h2>
+          <p class="lead narrow" data-edit-type="text" data-edit-path="contact.text"><%= site.contact.text %></p>
         </div>
         <div class="contact-grid contact-grid-original-icons">
-          <a href="tel:<%= site.settings.phone.replace(/\s/g,'') %>" class="contact-card">
-            <span class="contact-logo">☎</span>
-            <b>Telefono</b>
-            <span><%= site.settings.phone %></span>
+          <a href="tel:<%= site.settings.phone.replace(/\s/g,'') %>" class="contact-card" data-edit-type="box" data-edit-path="settings.phone">
+            <span class="contact-logo phone-logo">☎</span>
+            <b data-edit-type="text" data-edit-path="settings.phoneLabel">Telefono</b>
+            <span data-edit-type="text" data-edit-path="settings.phone"><%= site.settings.phone %></span>
           </a>
-          <a href="<%= waLink %>" target="_blank" rel="noopener" class="contact-card">
-            <span class="contact-logo">💬</span>
-            <b>WhatsApp</b>
-            <span><%= site.settings.phone %></span>
+          <a href="<%= waLink %>" target="_blank" rel="noopener" class="contact-card" data-edit-type="box" data-edit-path="settings.whatsapp">
+            <span class="contact-logo whatsapp-logo">💬</span>
+            <b data-edit-type="text" data-edit-path="settings.whatsappLabel">WhatsApp</b>
+            <span data-edit-type="text" data-edit-path="settings.phone"><%= site.settings.phone %></span>
           </a>
-          <a href="<%= site.settings.instagramUrl %>" target="_blank" rel="noopener" class="contact-card">
-            <span class="contact-logo">◎</span>
-            <b>Instagram</b>
-            <span>@<%= site.settings.instagram %></span>
+          <a href="<%= site.settings.instagramUrl %>" target="_blank" rel="noopener" class="contact-card" data-edit-type="box" data-edit-path="settings.instagram">
+            <span class="contact-logo instagram-logo">◎</span>
+            <b data-edit-type="text" data-edit-path="settings.instagramLabel">Instagram</b>
+            <span data-edit-type="text" data-edit-path="settings.instagram">@<%= site.settings.instagram %></span>
           </a>
-          <a href="mailto:<%= site.settings.email %>" class="contact-card">
-            <span class="contact-logo">✉</span>
-            <b>Email</b>
-            <span><%= site.settings.email %></span>
+          <a href="mailto:<%= site.settings.email %>" class="contact-card" data-edit-type="box" data-edit-path="settings.email">
+            <span class="contact-logo email-logo">✉</span>
+            <b data-edit-type="text" data-edit-path="settings.emailLabel">Email</b>
+            <span data-edit-type="text" data-edit-path="settings.email"><%= site.settings.email %></span>
           </a>
-          <div class="contact-card">
-            <span class="contact-logo">⌖</span>
-            <b>Studio</b>
-            <span><%= site.settings.address %><br><%= site.settings.city %></span>
+          <div class="contact-card" data-edit-type="box" data-edit-path="settings.address">
+            <span class="contact-logo studio-logo">⌂</span>
+            <b data-edit-type="text" data-edit-path="settings.studioLabel">Studio</b>
+            <span data-edit-type="text" data-edit-path="settings.address"><%= site.settings.address %><br><%= site.settings.city %></span>
           </div>
-        </div>
         </div>
       </div>
     </section>

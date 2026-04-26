@@ -285,3 +285,71 @@ footer a{text-decoration:underline;text-underline-offset:3px}
   .contact-grid-original-icons .contact-card,.contact-grid-original-icons > div{min-height:auto}
   .contact-grid-original-icons span:not(.contact-logo){white-space:normal}
 }
+
+
+/* LOGHI CONTATTI + STILE COME PRIMA */
+.contact-grid-original-icons{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:18px;
+  margin-top:28px;
+}
+.contact-grid-original-icons .contact-card,
+.contact-grid-original-icons > div{
+  background:#fff;
+  border-radius:24px;
+  padding:24px;
+  min-height:172px;
+  box-shadow:0 16px 42px rgba(38,50,47,.08);
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  gap:7px;
+}
+.contact-logo{
+  width:42px;
+  height:42px;
+  border-radius:15px;
+  display:grid;
+  place-items:center;
+  background:color-mix(in srgb,var(--primary) 14%,white);
+  color:var(--primary);
+  font-size:23px;
+  font-weight:950;
+  margin-bottom:6px;
+}
+.whatsapp-logo{background:#e8f7ee;color:#199b56}
+.instagram-logo{background:#f6e9f3;color:#b83280}
+.email-logo{background:#eef4ff;color:#315da8}
+.studio-logo{background:#f4eee7;color:#8a6a4f}
+.contact-grid-original-icons b{display:block;font-size:20px}
+.contact-grid-original-icons span:not(.contact-logo){
+  display:block;
+  color:var(--muted);
+  font-size:16px;
+  line-height:1.35;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:100%;
+}
+@media(max-width:1300px){.contact-grid-original-icons{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:820px){
+  .contact-grid-original-icons{grid-template-columns:1fr}
+  .contact-grid-original-icons .contact-card,.contact-grid-original-icons > div{min-height:auto}
+  .contact-grid-original-icons span:not(.contact-logo){white-space:normal}
+}
+
+/* SPAZI PIU COMPATTI */
+.hero{min-height:auto!important;padding-bottom:46px!important}
+.hero-grid{padding-top:52px!important}
+.section{padding:52px 0!important}
+.section-head{margin-bottom:22px!important}
+.lead{margin-top:14px!important}
+.cards{gap:18px!important}
+.card{padding:24px!important}
+.contact{padding-top:52px!important;padding-bottom:52px!important}
+
+/* ADMIN VISUALE: ELEMENTI CLICCABILI NELL'ANTEPRIMA */
+[data-edit-path]{cursor:pointer}
+.visual-edit-mode [data-edit-path]:hover{outline:3px solid #7BA58D;outline-offset:4px;border-radius:10px}
