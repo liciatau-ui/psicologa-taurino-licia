@@ -31,8 +31,10 @@ const defaultSite = {
     city: "Leverano / Lecce",
     albo: "Iscrizione nr. 8233",
     piva: "P.IVA da inserire",
-    footerText: "Privacy Policy · Cookie Policy"
+    footerText: "Privacy Policy · Cookie Policy",
+    whatsappMessage: "Buongiorno Dott.ssa Taurino, vorrei ricevere informazioni per prenotare un primo colloquio."
   },
+
   nav: [
     { label: "Home", href: "#home", visible: true },
     { label: "Genitori", href: "#genitori", visible: true },
@@ -43,11 +45,13 @@ const defaultSite = {
     { label: "Boot camp", href: "#bootcamp", visible: true },
     { label: "Contatti", href: "#contatti", visible: true }
   ],
+
   sectionOrder: ["parents", "services", "bes", "cognitive", "about", "bootcamps", "process", "articles", "contact"],
+
   hero: {
     visible: true,
     layout: "text-left",
-    eyebrow: "Studio psicologico · Età evolutiva · Adulti · Famiglie",
+    eyebrow: "Studio psicologico · Bambini · Ragazzi · Genitori",
     title: "Un aiuto concreto per bambini, ragazzi e genitori.",
     subtitle: "Uno spazio sicuro in cui ogni genitore può trovare ascolto, orientamento e strumenti pratici per comprendere meglio il proprio figlio e accompagnarlo nelle difficoltà emotive, scolastiche e relazionali.",
     primaryButton: "Parla con la Dott.ssa",
@@ -57,6 +61,7 @@ const defaultSite = {
     badgeTop: "Studio Psicologico",
     badgeBottom: "Bambini · Ragazzi · Genitori"
   },
+
   parents: {
     visible: true,
     layout: "split-cards",
@@ -73,24 +78,13 @@ const defaultSite = {
     ctaText: "Racconta la situazione e valuta con la Dott.ssa il percorso più indicato.",
     ctaButton: "Richiedi informazioni"
   },
-  bootcamps: {
-    visible: true,
-    layout: "poster-grid",
-    eyebrow: "Laboratori e boot camp",
-    title: "Esperienze pensate per bambini e ragazzi.",
-    text: "Durante l’anno possono essere organizzati boot camp e laboratori dedicati a bambini e ragazzi, ad esempio in estate, a Natale o a Pasqua. In questa sezione puoi inserire locandine, date e informazioni utili.",
-    items: [
-      { title: "Boot camp estivo", period: "Estate", text: "Laboratorio dedicato a emozioni, relazione, autostima e strategie per affrontare le piccole grandi sfide quotidiane.", image: "" },
-      { title: "Laboratorio di Natale", period: "Natale", text: "Attività in piccolo gruppo per favorire socializzazione, creatività e benessere emotivo durante le vacanze.", image: "" },
-      { title: "Laboratorio di Pasqua", period: "Pasqua", text: "Percorso breve e mirato con attività psicologiche ed educative pensate per bambini e ragazzi.", image: "" }
-    ]
-  },
+
   services: {
     visible: true,
     layout: "grid-4",
     eyebrow: "Aree di intervento",
     title: "Percorsi pensati per ogni fase della vita.",
-    text: "Quando un bambino o un ragazzo vive una difficoltà, anche il genitore ha bisogno di essere guidato. Ogni percorso nasce dall’ascolto della famiglia e dalla comprensione del bisogno reale."
+    text: "Quando un bambino o un ragazzo vive una difficoltà, anche il genitore ha bisogno di essere guidato. Ogni percorso nasce dall’ascolto della famiglia e dalla comprensione del bisogno reale.",
     items: [
       { title: "Età evolutiva", text: "Supporto per bambini e ragazzi che vivono difficoltà emotive, comportamentali, scolastiche o relazionali." },
       { title: "BES, DSA e scuola", text: "Consulenza per bisogni educativi speciali, difficoltà di apprendimento e collaborazione tra famiglia e scuola." },
@@ -98,14 +92,23 @@ const defaultSite = {
       { title: "Benessere psicologico", text: "Colloqui individuali per affrontare ansia, stress, cambiamenti, fragilità emotive e momenti delicati della vita." }
     ]
   },
+
   bes: {
     visible: true,
     layout: "dark-split",
     eyebrow: "BES e DSA",
     title: "Supporto psicologico e scolastico per comprendere le difficoltà.",
     text: "I Bisogni Educativi Speciali indicano la necessità di risposte educative attente e personalizzate. Il lavoro psicologico aiuta famiglia e scuola a leggere meglio i bisogni del bambino o del ragazzo.",
-    items: ["Bisogni Educativi Speciali", "Disturbi Specifici dell’Apprendimento", "Difficoltà scolastiche", "Gestione delle emozioni", "Autostima e relazioni", "Supporto alla famiglia"]
+    items: [
+      "Bisogni Educativi Speciali",
+      "Disturbi Specifici dell’Apprendimento",
+      "Difficoltà scolastiche",
+      "Gestione delle emozioni",
+      "Autostima e relazioni",
+      "Supporto alla famiglia"
+    ]
   },
+
   cognitive: {
     visible: true,
     layout: "grid-3",
@@ -118,6 +121,7 @@ const defaultSite = {
       { title: "Piano personalizzato", text: "Attività strutturate in base ai bisogni della persona, alla storia clinica, alle risorse residue e al coinvolgimento dei familiari." }
     ]
   },
+
   about: {
     visible: true,
     layout: "photo-left",
@@ -130,6 +134,20 @@ const defaultSite = {
     subtitle: "Psicologa",
     alboText: "Iscrizione nr. 8233"
   },
+
+  bootcamps: {
+    visible: true,
+    layout: "poster-grid",
+    eyebrow: "Laboratori e boot camp",
+    title: "Esperienze pensate per bambini e ragazzi.",
+    text: "Durante l’anno possono essere organizzati boot camp e laboratori dedicati a bambini e ragazzi, ad esempio in estate, a Natale o a Pasqua. In questa sezione puoi inserire locandine, date e informazioni utili.",
+    items: [
+      { title: "Boot camp estivo", period: "Estate", text: "Laboratorio dedicato a emozioni, relazione, autostima e strategie per affrontare le piccole grandi sfide quotidiane.", image: "" },
+      { title: "Laboratorio di Natale", period: "Natale", text: "Attività in piccolo gruppo per favorire socializzazione, creatività e benessere emotivo durante le vacanze.", image: "" },
+      { title: "Laboratorio di Pasqua", period: "Pasqua", text: "Percorso breve e mirato con attività psicologiche ed educative pensate per bambini e ragazzi.", image: "" }
+    ]
+  },
+
   process: {
     visible: true,
     layout: "steps-right",
@@ -143,6 +161,7 @@ const defaultSite = {
       "Collaborazione con famiglia, scuola e figure educative quando necessario"
     ]
   },
+
   articles: {
     visible: true,
     layout: "grid-3",
@@ -155,12 +174,13 @@ const defaultSite = {
       { title: "Emozioni nei bambini", text: "Riconoscere, nominare e gestire le emozioni nella quotidianità." }
     ]
   },
+
   contact: {
     visible: true,
     layout: "cards",
     eyebrow: "Contatti",
     title: "Prenota un primo colloquio.",
-    text: "Puoi richiedere informazioni tramite telefono, WhatsApp, email o Instagram."
+    text: "Scegli il canale che preferisci per richiedere informazioni o fissare un primo colloquio."
   }
 };
 
