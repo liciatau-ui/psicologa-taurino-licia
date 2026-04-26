@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= site.settings.siteName %></title>
+  <meta name="description" content="Studio psicologico Taurino Licia - percorsi per età evolutiva, BES, DSA, genitori e adulti.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@600;700;800&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    :root{
+      --primary:<%= site.settings.primaryColor %>;
+      --secondary:<%= site.settings.secondaryColor %>;
+      --accent:<%= site.settings.accentColor %>;
+      --bg:<%= site.settings.backgroundColor %>;
+      --text:<%= site.settings.textColor %>;
+      --font:'<%= site.settings.fontFamily %>', Inter, sans-serif;
+      --title-size:<%= site.settings.titleSize %>px;
+      --text-size:<%= site.settings.textSize %>px;
+      --radius:<%= site.settings.radius %>px;
+      --align:<%= site.settings.alignment %>;
+    }
+  </style>
+</head>
+<body class="<%= preview ? 'preview-mode' : '' %>">
+  <header class="hero" id="home">
+    <div class="ambient"></div>
+    <nav class="nav glass">
+      <a class="brand" href="#home">
+        <span class="brand-logo"><%= site.settings.logoText %></span>
+        <span><small>Psicologa</small><strong><%= site.settings.siteName %></strong></span>
+      </a>
+      <div class="nav-links">
+        <% site.nav.forEach(function(item){ %>
+          <a href="<%= item.href %>"><%= item.label %></a>
+        <% }) %>
+      </div>
+      <a class="btn small" href="#contatti">Prenota</a>
+    </nav>
+
+    <% if(site.hero.visible){ %>
+    <section class="hero-grid container editable-align">
+      <div class="hero-copy reveal">
+        <p class="eyebrow"><%= site.hero.eyebrow %></p>
+        <h1><%= site.hero.title %></h1>
+        <p class="lead"><%= site.hero.subtitle %></p>
+        <div class="actions">
+          <a class="btn" href="https://wa.me/<%= site.settings.whatsapp %>">💬 <%= site.hero.primaryButton %></a>
+          <a class="btn ghost" href="#servizi"><%= site.hero.secondaryButton %> →</a>
+        </div>
+      </div>
+      <div class="hero-card reveal delay">
+        <% if(site.hero.image){ %>
+          <img src="<%= site.hero.image %>" alt="<%= site.settings.siteName %>">
+        <% } else { %>
+          <div class="portrait-placeholder">ψ</div>
+        <% } %>
+        <div class="floating-card top">Studio psicologico</div>
+        <div class="floating-card bottom">Ascolto · Cura · Crescita</div>
+      </div>
+    </section>
+    <% } %>
+  </header>
+
+  <% if(site.services.visible){ %>
+  <section class="section container" id="servizi">
+    <p class="eyebrow"><%= site.services.eyebrow %></p>
+    <h2><%= site.services.title %></h2>
+    <div class="cards four">
+      <% site.services.items.forEach(function(s){ %>
+      <article class="card">
+        <span class="icon">✦</span>
+        <h3><%= s.title %></h3>
+        <p><%= s.text %></p>
+      </article>
+      <% }) %>
+    </div>
+  </section>
+  <% } %>
+
+  <% if(site.bes.visible){ %>
+  <section class="section dark" id="bes">
+    <div class="container split">
+      <div>
+        <p class="eyebrow"><%= site.bes.eyebrow %></p>
+        <h2><%= site.bes.title %></h2>
+        <p class="lead"><%= site.bes.text %></p>
+      </div>
+      <div class="chips">
+        <% site.bes.items.forEach(function(item){ %><span>✓ <%= item %></span><% }) %>
+      </div>
+    </div>
+  </section>
+  <% } %>
+
+  <% if(site.about.visible){ %>
+  <section class="section container split" id="chi-sono">
+    <div class="soft-panel">
+      <% if(site.about.image){ %><img src="<%= site.about.image %>" alt="Dott.ssa Taurino Licia"><% } else { %><div class="portrait-placeholder small">TL</div><% } %>
+    </div>
+    <div>
+      <p class="eyebrow"><%= site.about.eyebrow %></p>
+      <h2><%= site.about.title %></h2>
+      <p class="lead"><%= site.about.text %></p>
+    </div>
+  </section>
+  <% } %>
+
+  <% if(site.process.visible){ %>
+  <section class="section container">
+    <div class="process-box">
+      <div>
+        <p class="eyebrow"><%= site.process.eyebrow %></p>
+        <h2><%= site.process.title %></h2>
+        <p><%= site.process.text %></p>
+      </div>
+      <div class="steps">
+        <% site.process.items.forEach(function(step, i){ %>
+          <div class="step"><b><%= i + 1 %></b><span><%= step %></span></div>
+        <% }) %>
+      </div>
+    </div>
+  </section>
+  <% } %>
+
+  <% if(site.articles.visible){ %>
+  <section class="section container" id="articoli">
+    <p class="eyebrow"><%= site.articles.eyebrow %></p>
+    <h2><%= site.articles.title %></h2>
+    <p class="lead narrow"><%= site.articles.text %></p>
+    <div class="cards three">
+      <% site.articles.items.forEach(function(a){ %>
+      <article class="card article">
+        <h3><%= a.title %></h3>
+        <p><%= a.text %></p>
+        <a href="#">Leggi articolo →</a>
+      </article>
+      <% }) %>
+    </div>
+  </section>
+  <% } %>
+
+  <% if(site.contact.visible){ %>
+  <section class="section contact" id="contatti">
+    <div class="container">
+      <p class="eyebrow"><%= site.contact.eyebrow %></p>
+      <h2><%= site.contact.title %></h2>
+      <p class="lead narrow"><%= site.contact.text %></p>
+      <div class="contact-grid">
+        <a href="tel:<%= site.settings.phone %>"><b>Telefono</b><span><%= site.settings.phone %></span></a>
+        <a href="mailto:<%= site.settings.email %>"><b>Email</b><span><%= site.settings.email %></span></a>
+        <div><b>Studio</b><span><%= site.settings.address %><br><%= site.settings.city %></span></div>
+      </div>
+    </div>
+  </section>
+  <% } %>
+
+  <footer>
+    <div class="container footer-grid">
+      <p>© 2026 <%= site.settings.siteName %>. Tutti i diritti riservati.</p>
+      <p><%= site.settings.albo %> · <%= site.settings.piva %> · Privacy Policy · Cookie Policy</p>
+    </div>
+  </footer>
+</body>
+</html>

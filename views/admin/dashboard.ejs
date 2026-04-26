@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin - Psicologa Taurino Licia</title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-shell">
+    <aside>
+      <h1>Admin sito</h1>
+      <p>Modifica tutto il sito: testi, colori, font, dimensioni, allineamento e sezioni.</p>
+      <a href="/" target="_blank">Apri sito</a>
+      <form method="post" action="/admin/logout"><button class="secondary">Esci</button></form>
+    </aside>
+    <main>
+      <% if(saved){ %><div class="saved">Modifiche salvate correttamente.</div><% } %>
+      <div class="toolbar">
+        <button onclick="showTab('content')">Contenuti</button>
+        <button onclick="showTab('style')">Grafica</button>
+        <button onclick="showTab('json')">JSON avanzato</button>
+        <form method="post" action="/admin/save" onsubmit="syncAndSave()">
+          <input type="hidden" name="siteJson" id="siteJson">
+          <button class="save">Salva tutto</button>
+        </form>
+      </div>
+      <div class="workspace">
+        <section class="editor">
+          <div id="tab-content" class="tab active"></div>
+          <div id="tab-style" class="tab"></div>
+          <div id="tab-json" class="tab"><textarea id="jsonArea"></textarea></div>
+        </section>
+        <section class="preview">
+          <iframe src="/preview"></iframe>
+        </section>
+      </div>
+    </main>
+  </div>
+<script>
+let site = <%- JSON.stringify(site) %>;
+</script>
+<script src="/js/admin.js"></script>
+</body>
+</html>
