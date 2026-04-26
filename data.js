@@ -31,7 +31,8 @@ const defaultSite = {
     city: "Leverano / Lecce",
     albo: "Iscrizione nr. 8233",
     piva: "P.IVA da inserire",
-    footerText: "Privacy Policy · Cookie Policy"
+    footerText: "Privacy Policy · Cookie Policy",
+    whatsappMessage: "Buongiorno Dott.ssa Taurino, vorrei ricevere informazioni per prenotare un primo colloquio."
   },
   nav: [
     { label: "Home", href: "#home", visible: true },
@@ -130,7 +131,7 @@ const defaultSite = {
     layout: "cards",
     eyebrow: "Contatti",
     title: "Prenota un primo colloquio.",
-    text: "Puoi richiedere informazioni tramite telefono, WhatsApp, email o Instagram."
+    text: "Scegli il canale che preferisci per richiedere informazioni o fissare un primo colloquio."
   }
 };
 

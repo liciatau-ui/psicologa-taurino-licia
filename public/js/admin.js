@@ -179,6 +179,7 @@ function renderContent(){
       ${input('settings.piva','P.IVA')}
     </div>
     ${textarea('settings.address','Indirizzo')}
+    ${textarea('settings.whatsappMessage','Messaggio preimpostato WhatsApp')}
     ${textarea('settings.footerText','Testo footer')}`, true);
 
   html+=sectionBasic('hero','Hero / Prima schermata',['eyebrow','title','subtitle','primaryButton','secondaryButton','badgeTop','badgeBottom'],true);

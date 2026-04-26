@@ -33,6 +33,7 @@
   </style>
 </head>
 <body class="<%= preview ? 'preview-mode' : '' %>">
+  <% const waLink = "https://wa.me/" + site.settings.whatsapp + "?text=" + encodeURIComponent(site.settings.whatsappMessage || "Buongiorno Dott.ssa Taurino, vorrei ricevere informazioni per prenotare un primo colloquio."); %>
   <header class="hero" id="home">
     <div class="ambient ambient-one"></div>
     <div class="ambient ambient-two"></div>
@@ -54,7 +55,7 @@
         <% }) %>
       </div>
 
-      <a class="btn small nav-cta" href="https://wa.me/<%= site.settings.whatsapp %>" target="_blank" rel="noopener">Prenota</a>
+      <a class="btn small nav-cta" href="<%= waLink %>" target="_blank" rel="noopener">Prenota</a>
     </nav>
 
     <% if(site.hero.visible){ %>
@@ -64,7 +65,7 @@
         <h1><%= site.hero.title %></h1>
         <p class="lead"><%= site.hero.subtitle %></p>
         <div class="actions">
-          <a class="btn" href="https://wa.me/<%= site.settings.whatsapp %>" target="_blank" rel="noopener">💬 <%= site.hero.primaryButton %></a>
+          <a class="btn" href="<%= waLink %>" target="_blank" rel="noopener">💬 <%= site.hero.primaryButton %></a>
           <a class="btn ghost" href="#servizi"><%= site.hero.secondaryButton %> →</a>
         </div>
       </div>
@@ -214,12 +215,32 @@
           <h2><%= site.contact.title %></h2>
           <p class="lead narrow"><%= site.contact.text %></p>
         </div>
-        <div class="contact-grid">
-          <a href="tel:<%= site.settings.phone.replace(/\s/g,'') %>"><b>Telefono</b><span><%= site.settings.phone %></span></a>
-          <a href="https://wa.me/<%= site.settings.whatsapp %>" target="_blank" rel="noopener"><b>WhatsApp</b><span><%= site.settings.phone %></span></a>
-          <a href="<%= site.settings.instagramUrl %>" target="_blank" rel="noopener"><b>Instagram</b><span>@<%= site.settings.instagram %></span></a>
-          <a href="mailto:<%= site.settings.email %>"><b>Email</b><span><%= site.settings.email %></span></a>
-          <div><b>Studio</b><span><%= site.settings.address %><br><%= site.settings.city %></span></div>
+        <div class="contact-grid contact-grid-refined">
+          <a href="tel:<%= site.settings.phone.replace(/\s/g,'') %>" class="contact-card">
+            <small>Chiamata diretta</small>
+            <b>Telefono</b>
+            <span><%= site.settings.phone %></span>
+          </a>
+          <a href="<%= waLink %>" target="_blank" rel="noopener" class="contact-card featured">
+            <small>Messaggio già pronto</small>
+            <b>WhatsApp</b>
+            <span><%= site.settings.phone %></span>
+          </a>
+          <a href="<%= site.settings.instagramUrl %>" target="_blank" rel="noopener" class="contact-card">
+            <small>Profilo professionale</small>
+            <b>Instagram</b>
+            <span>@<%= site.settings.instagram %></span>
+          </a>
+          <a href="mailto:<%= site.settings.email %>" class="contact-card">
+            <small>Scrivi una email</small>
+            <b>Email</b>
+            <span><%= site.settings.email %></span>
+          </a>
+          <div class="contact-card">
+            <small>Ricevimento</small>
+            <b>Studio</b>
+            <span><%= site.settings.address %><br><%= site.settings.city %></span>
+          </div>
         </div>
       </div>
     </section>

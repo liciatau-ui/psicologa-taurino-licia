@@ -29,6 +29,7 @@ function upgradeSite(saved) {
   site.settings.whatsapp = "393925229478";
   site.settings.instagram = "liciataurino.psicologa";
   site.settings.instagramUrl = "https://www.instagram.com/liciataurino.psicologa/";
+  site.settings.whatsappMessage = site.settings.whatsappMessage || "Buongiorno Dott.ssa Taurino, vorrei ricevere informazioni per prenotare un primo colloquio.";
   site.settings.albo = "Iscrizione nr. 8233";
 
   site.hero.image = site.hero.image || "/img/licia-taurino.jpg";
