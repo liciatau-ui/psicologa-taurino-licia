@@ -96,6 +96,24 @@
   </section>
   <% } %>
 
+
+  <% if(site.cognitive && site.cognitive.visible){ %>
+  <section class="section container cognitive-section" id="stimolazione">
+    <p class="eyebrow"><%= site.cognitive.eyebrow %></p>
+    <h2><%= site.cognitive.title %></h2>
+    <p class="lead narrow"><%= site.cognitive.text %></p>
+    <div class="cards three neuro-cards">
+      <% site.cognitive.items.forEach(function(item){ %>
+      <article class="card neuro-card">
+        <span class="icon">🧠</span>
+        <h3><%= item.title %></h3>
+        <p><%= item.text %></p>
+      </article>
+      <% }) %>
+    </div>
+  </section>
+  <% } %>
+
   <% if(site.about.visible){ %>
   <section class="section container split" id="chi-sono">
     <div class="soft-panel">
@@ -150,7 +168,9 @@
       <h2><%= site.contact.title %></h2>
       <p class="lead narrow"><%= site.contact.text %></p>
       <div class="contact-grid">
-        <a href="tel:<%= site.settings.phone %>"><b>Telefono</b><span><%= site.settings.phone %></span></a>
+        <a href="tel:<%= site.settings.phone.replace(/\s/g,'') %>"><b>Telefono</b><span><%= site.settings.phone %></span></a>
+        <a href="https://wa.me/<%= site.settings.whatsapp %>" target="_blank" rel="noopener"><b>WhatsApp</b><span><%= site.settings.phone %></span></a>
+        <a href="<%= site.settings.instagramUrl %>" target="_blank" rel="noopener"><b>Instagram</b><span>@<%= site.settings.instagram %></span></a>
         <a href="mailto:<%= site.settings.email %>"><b>Email</b><span><%= site.settings.email %></span></a>
         <div><b>Studio</b><span><%= site.settings.address %><br><%= site.settings.city %></span></div>
       </div>

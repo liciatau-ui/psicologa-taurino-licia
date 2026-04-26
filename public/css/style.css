@@ -20,3 +20,12 @@
   .menu-open .nav-links.dropdown-menu{display:grid}
   .nav-links.dropdown-menu a{padding:13px 14px;border-radius:16px;background:color-mix(in srgb,var(--primary) 9%,white);font-weight:900}
 }
+
+
+/* SEZIONE STIMOLAZIONE COGNITIVA */
+.cognitive-section{position:relative}
+.cognitive-section:before{content:"";position:absolute;inset:45px -20px auto auto;width:260px;height:260px;border-radius:50%;background:color-mix(in srgb,var(--primary) 18%,transparent);filter:blur(35px);z-index:-1}
+.neuro-cards .card{background:linear-gradient(180deg,#fff,color-mix(in srgb,var(--primary) 6%,white));}
+.neuro-card .icon{font-size:24px}
+.contact-grid{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+footer a{text-decoration:underline;text-underline-offset:3px}

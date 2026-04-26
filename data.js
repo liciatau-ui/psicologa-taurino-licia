@@ -12,18 +12,21 @@ const defaultSite = {
     textSize: 18,
     radius: 28,
     alignment: "left",
-    whatsapp: "393000000000",
-    phone: "+39 300 000 0000",
+    whatsapp: "393925229478",
+    phone: "+39 392 522 9478",
     email: "info@psicologataurinolicia.it",
     address: "Inserisci indirizzo studio",
     city: "Leverano / Lecce",
     albo: "Iscrizione Albo da inserire",
-    piva: "P.IVA da inserire"
+    piva: "P.IVA da inserire",
+    instagram: "liciataurino.psicologa",
+    instagramUrl: "https://www.instagram.com/liciataurino.psicologa/"
   },
   nav: [
     { label: "Home", href: "#home" },
     { label: "Servizi", href: "#servizi" },
     { label: "BES e DSA", href: "#bes" },
+    { label: "Stimolazione cognitiva", href: "#stimolazione" },
     { label: "Chi sono", href: "#chi-sono" },
     { label: "Contatti", href: "#contatti" }
   ],
@@ -53,6 +56,17 @@ const defaultSite = {
     title: "Supporto psicologico e scolastico per comprendere le difficoltà.",
     text: "I Bisogni Educativi Speciali non sono una diagnosi, ma indicano la necessità di risposte educative attente e personalizzate. Il lavoro psicologico aiuta famiglia e scuola a leggere meglio i bisogni del bambino o del ragazzo.",
     items: ["Bisogni Educativi Speciali", "Disturbi Specifici dell’Apprendimento", "Difficoltà scolastiche", "Gestione delle emozioni", "Autostima e relazioni", "Supporto alla famiglia"]
+  },
+  cognitive: {
+    visible: true,
+    eyebrow: "Neuropsicologia e stimolazione cognitiva",
+    title: "Stimolazione cognitiva per l’invecchiamento patologico.",
+    text: "Percorsi pensati per sostenere le funzioni cognitive, favorire il mantenimento delle autonomie e accompagnare la persona e la famiglia nelle diverse fasi dell’invecchiamento patologico.",
+    items: [
+      { title: "Esordio acuto", text: "Supporto e stimolazione dopo eventi improvvisi come ictus, ischemia o altre condizioni neurologiche che possono modificare memoria, attenzione, linguaggio e autonomie quotidiane." },
+      { title: "Esordio subdolo", text: "Interventi rivolti a quadri progressivi come demenze, decadimento cognitivo e difficoltà che emergono gradualmente nel tempo." },
+      { title: "Piano personalizzato", text: "Attività strutturate in base ai bisogni della persona, con attenzione alla storia clinica, alle risorse residue e al coinvolgimento dei familiari." }
+    ]
   },
   about: {
     visible: true,

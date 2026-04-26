@@ -17,11 +17,13 @@ async function uploadImage(path,input){const fd=new FormData();fd.append('image'
 function imageField(path,label){return `<div class="field"><label>${label}</label><input value="${escapeHtml(get(path)||'')}" onchange="set('${path}',this.value)" placeholder="URL immagine"><input type="file" accept="image/*" onchange="uploadImage('${path}',this)"></div>`}
 function renderContent(){
 let html='';
-html+=`<details class="group"><summary>Impostazioni contatti</summary><div class="row">${input('settings.siteName','Nome sito')}${input('settings.logoText','Testo logo')}${input('settings.whatsapp','WhatsApp senza +')}${input('settings.phone','Telefono')}${input('settings.email','Email')}${input('settings.city','Città')}</div>${textarea('settings.address','Indirizzo')}${input('settings.albo','Albo')}${input('settings.piva','P.IVA')}</details>`;
+html+=`<details class="group"><summary>Impostazioni contatti</summary><div class="row">${input('settings.siteName','Nome sito')}${input('settings.logoText','Testo logo')}${input('settings.whatsapp','WhatsApp senza +')}${input('settings.phone','Telefono')}${input('settings.email','Email')}${input('settings.city','Città')}${input('settings.instagram','Instagram')}${input('settings.instagramUrl','Link Instagram')}</div>${textarea('settings.address','Indirizzo')}${input('settings.albo','Albo')}${input('settings.piva','P.IVA')}</details>`;
 html+=sectionBasic('hero','Hero / Prima schermata',['eyebrow','title','subtitle','primaryButton','secondaryButton'],true);
 html+=listObjects('services.items','Servizi','services',['title','text']);
 html+=listStrings('bes.items','BES e DSA','bes');
+html+=listObjects('cognitive.items','Stimolazione cognitiva','cognitive',['title','text']);
 html+=sectionBasic('bes','Testo sezione BES',['eyebrow','title','text']);
+html+=sectionBasic('cognitive','Testo stimolazione cognitiva',['eyebrow','title','text']);
 html+=sectionBasic('about','Chi sono',['eyebrow','title','text'],true);
 html+=listStrings('process.items','Passaggi primo colloquio','process');
 html+=sectionBasic('process','Testo primo colloquio',['eyebrow','title','text']);
