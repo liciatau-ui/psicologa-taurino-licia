@@ -10,12 +10,12 @@
   <header class="topbar">
     <div>
       <b>Admin visuale</b>
-      <span>Vedi il sito, clicchi un elemento e modifichi a destra.</span>
+      <span>Clicca qualsiasi testo, immagine, box, menu, sezione o footer nel sito.</span>
     </div>
     <div class="actions">
       <a href="/admin">Admin classico</a>
       <a href="/" target="_blank">Apri sito</a>
-      <button onclick="saveVisual()">Salva</button>
+      <button onclick="saveVisual()">Salva modifiche</button>
     </div>
   </header>
 
@@ -25,17 +25,15 @@
     </section>
 
     <aside class="panel">
-      <h2>Impostazioni</h2>
-      <p id="selectedInfo">Clicca una scritta, foto, box, menu o sezione nell’anteprima.</p>
+      <h2>Modifica elemento</h2>
+      <p id="selectedInfo">Clicca sul sito a sinistra.</p>
       <div id="controls" class="controls empty">
         <p>Nessun elemento selezionato.</p>
       </div>
     </aside>
   </main>
 
-<script>
-let site = <%- JSON.stringify(site) %>;
-</script>
+<script>let site = <%- JSON.stringify(site) %>;</script>
 <script src="/js/admin-visual.js"></script>
 </body>
 </html>

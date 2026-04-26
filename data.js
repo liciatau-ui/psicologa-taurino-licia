@@ -180,6 +180,15 @@ const defaultSite = {
     eyebrow: "Contatti",
     title: "Prenota un primo colloquio.",
     text: "Scegli il canale che preferisci per richiedere informazioni o fissare un primo colloquio."
+  },
+
+  visualStyles: {},
+  labels: {
+    phone: "Telefono",
+    whatsapp: "WhatsApp",
+    instagram: "Instagram",
+    email: "Email",
+    studio: "Studio"
   }
 };
 

@@ -45,6 +45,12 @@ app.get('/', async (req, res) => {
   res.render('site', { site, preview: false });
 });
 
+
+app.get('/admin-visual', requireAdmin, async (req, res) => {
+  const site = await getSite();
+  res.render('admin/visual', { site });
+});
+
 app.get('/preview', requireAdmin, async (req, res) => {
   const site = await getSite();
   res.render('site', { site, preview: true });
@@ -64,12 +70,6 @@ app.post('/admin/logout', (req, res) => req.session.destroy(() => res.redirect('
 app.get('/admin', requireAdmin, async (req, res) => {
   const site = await getSite();
   res.render('admin/dashboard', { site, saved: req.query.saved === '1' });
-});
-
-
-app.get('/admin-visual', requireAdmin, async (req, res) => {
-  const site = await getSite();
-  res.render('admin/visual', { site });
 });
 
 app.post('/admin/save', requireAdmin, async (req, res) => {

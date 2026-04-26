@@ -57,7 +57,7 @@ function upgradeSite(saved) {
     if (!site.sectionOrder.includes(s)) site.sectionOrder.push(s);
   });
 
-  return site;
+  site.visualStyles = site.visualStyles || {}; site.labels = site.labels || defaultSite.labels || {}; return site;
 }
 
 async function initDb() {

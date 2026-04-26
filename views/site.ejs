@@ -34,6 +34,9 @@
 </head>
 <body class="<%= preview ? 'preview-mode' : '' %>">
   <% const waLink = "https://wa.me/" + site.settings.whatsapp + "?text=" + encodeURIComponent(site.settings.whatsappMessage || "Buongiorno Dott.ssa Taurino, vorrei ricevere informazioni per prenotare un primo colloquio."); %>
+  <% function visualStyle(path){ const s=(site.visualStyles && site.visualStyles[path]) || {}; return Object.entries(s).map(([k,v]) => v !== undefined && v !== '' ? `${k.replace(/[A-Z]/g,m=>'-'+m.toLowerCase())}:${v}` : '').join(';'); } %>
+  <% function editAttrs(type,path){ return `data-edit-type="${type}" data-edit-path="${path}" style="${visualStyle(path)}"`; } %>
+  <% const waLink = "https://wa.me/" + site.settings.whatsapp + "?text=" + encodeURIComponent(site.settings.whatsappMessage || "Buongiorno Dott.ssa Taurino, vorrei ricevere informazioni per prenotare un primo colloquio."); %>
   <header class="hero" id="home">
     <div class="ambient ambient-one"></div>
     <div class="ambient ambient-two"></div>
@@ -51,11 +54,11 @@
 
       <div class="nav-links dropdown-menu">
         <% site.nav.filter(n => n.visible !== false).forEach(function(item){ %>
-          <a href="<%= item.href %>" onclick="document.body.classList.remove('menu-open')"><%= item.label %></a>
+          <a href="<%= item.href %>" onclick="document.body.classList.remove('menu-open')" <%- editAttrs("text","nav."+site.nav.indexOf(item)+".label") %>><%= item.label %></a>
         <% }) %>
       </div>
 
-      <a class="btn small nav-cta" href="<%= waLink %>" target="_blank" rel="noopener">Prenota</a>
+      <a class="btn small nav-cta" href="<%= waLink %>" target="_blank" rel="noopener" <%- editAttrs("text","hero.primaryButton") %>>Prenota</a>
     </nav>
 
     <% if(site.hero.visible){ %>
@@ -65,8 +68,8 @@
         <h1 data-edit-type="text" data-edit-path="hero.title"><%= site.hero.title %></h1>
         <p class="lead" data-edit-type="text" data-edit-path="hero.subtitle"><%= site.hero.subtitle %></p>
         <div class="actions">
-          <a class="btn" href="<%= waLink %>" target="_blank" rel="noopener">💬 <%= site.hero.primaryButton %></a>
-          <a class="btn ghost" href="#servizi"><%= site.hero.secondaryButton %> →</a>
+          <a class="btn" href="<%= waLink %>" target="_blank" rel="noopener">💬 <span <%- editAttrs("text","hero.primaryButton") %>><%= site.hero.primaryButton %></span></a>
+          <a class="btn ghost" href="#servizi"><span <%- editAttrs("text","hero.secondaryButton") %>><%= site.hero.secondaryButton %></span> →</a>
         </div>
       </div>
 
@@ -76,8 +79,8 @@
         <% } else { %>
           <div class="portrait-placeholder">ψ</div>
         <% } %>
-        <div class="floating-card top"><%= site.hero.badgeTop || 'Studio Psicologico' %></div>
-        <div class="floating-card bottom"><%= site.hero.badgeBottom || 'Ascolto · Cura · Crescita' %></div>
+        <div class="floating-card top"><span <%- editAttrs("text","hero.badgeTop") %>><%= site.hero.badgeTop || 'Studio Psicologico' %></span></div>
+        <div class="floating-card bottom"><span <%- editAttrs("text","hero.badgeBottom") %>><%= site.hero.badgeBottom || 'Ascolto · Cura · Crescita' %></span></div>
       </div>
     </section>
     <% } %>
@@ -114,7 +117,7 @@
 
   <% function renderServices(){ %>
     <% if(site.services.visible){ %>
-    <section class="section container" id="servizi">
+    <section class="section container" id="servizi" <%- editAttrs("section","services") %>>
       <div class="section-head">
         <p class="eyebrow" data-edit-type="text" data-edit-path="services.eyebrow"><%= site.services.eyebrow %></p>
         <h2 data-edit-type="text" data-edit-path="services.title"><%= site.services.title %></h2>
@@ -135,7 +138,7 @@
 
   <% function renderBes(){ %>
     <% if(site.bes.visible){ %>
-    <section class="section dark" id="bes">
+    <section class="section dark" id="bes" <%- editAttrs("section","bes") %>>
       <div class="container split">
         <div>
           <p class="eyebrow" data-edit-type="text" data-edit-path="bes.eyebrow"><%= site.bes.eyebrow %></p>
@@ -152,7 +155,7 @@
 
   <% function renderCognitive(){ %>
     <% if(site.cognitive && site.cognitive.visible){ %>
-    <section class="section container cognitive-section" id="stimolazione">
+    <section class="section container cognitive-section" id="stimolazione" <%- editAttrs("section","cognitive") %>>
       <div class="section-head">
         <p class="eyebrow" data-edit-type="text" data-edit-path="cognitive.eyebrow"><%= site.cognitive.eyebrow %></p>
         <h2 data-edit-type="text" data-edit-path="cognitive.title"><%= site.cognitive.title %></h2>
@@ -173,7 +176,7 @@
 
   <% function renderAbout(){ %>
     <% if(site.about.visible){ %>
-    <section class="section container split about-section about-layout-<%= site.about.layout || 'photo-left' %>" id="chi-sono">
+    <section <%- editAttrs("section","about") %> class="section container split about-section about-layout-<%= site.about.layout || 'photo-left' %>" id="chi-sono">
       <div class="about-profile-card">
         <% if(site.about.image){ %>
           <img data-edit-type="image" data-edit-path="about.image" src="<%= site.about.image %>" alt="<%= site.about.name || 'Licia Taurino' %>" style="object-position:<%= site.about.imagePosition || 'center top' %>">
@@ -197,7 +200,7 @@
 
   <% function renderProcess(){ %>
     <% if(site.process.visible){ %>
-    <section class="section container" id="percorso">
+    <section class="section container" id="percorso" <%- editAttrs("section","process") %>>
       <div class="process-box">
         <div>
           <p class="eyebrow" data-edit-type="text" data-edit-path="process.eyebrow"><%= site.process.eyebrow %></p>
@@ -272,38 +275,38 @@
 
   <% function renderContact(){ %>
     <% if(site.contact.visible){ %>
-    <section class="section contact" id="contatti">
+    <section class="section contact" id="contatti" <%- editAttrs("section","contact") %>>
       <div class="container">
         <div class="section-head">
           <p class="eyebrow" data-edit-type="text" data-edit-path="contact.eyebrow"><%= site.contact.eyebrow %></p>
           <h2 data-edit-type="text" data-edit-path="contact.title"><%= site.contact.title %></h2>
           <p class="lead narrow" data-edit-type="text" data-edit-path="contact.text"><%= site.contact.text %></p>
         </div>
-        <div class="contact-grid contact-grid-original-icons">
-          <a href="tel:<%= site.settings.phone.replace(/\s/g,'') %>" class="contact-card" data-edit-type="box" data-edit-path="settings.phone">
+        <div class="contact-grid contact-grid-original-icons" <%- editAttrs("section","contact") %>>
+          <a href="tel:<%= site.settings.phone.replace(/\s/g,'') %>" class="contact-card" <%- editAttrs("box","settings.phone") %>>
             <span class="contact-logo phone-logo">☎</span>
-            <b data-edit-type="text" data-edit-path="settings.phoneLabel">Telefono</b>
-            <span data-edit-type="text" data-edit-path="settings.phone"><%= site.settings.phone %></span>
+            <b <%- editAttrs("text","labels.phone") %>><%= site.labels?.phone || "Telefono" %></b>
+            <span <%- editAttrs("text","settings.phone") %>><%= site.settings.phone %></span>
           </a>
-          <a href="<%= waLink %>" target="_blank" rel="noopener" class="contact-card" data-edit-type="box" data-edit-path="settings.whatsapp">
+          <a href="<%= waLink %>" target="_blank" rel="noopener" class="contact-card" <%- editAttrs("box","settings.whatsapp") %>>
             <span class="contact-logo whatsapp-logo">💬</span>
-            <b data-edit-type="text" data-edit-path="settings.whatsappLabel">WhatsApp</b>
-            <span data-edit-type="text" data-edit-path="settings.phone"><%= site.settings.phone %></span>
+            <b <%- editAttrs("text","labels.whatsapp") %>><%= site.labels?.whatsapp || "WhatsApp" %></b>
+            <span <%- editAttrs("text","settings.phone") %>><%= site.settings.phone %></span>
           </a>
-          <a href="<%= site.settings.instagramUrl %>" target="_blank" rel="noopener" class="contact-card" data-edit-type="box" data-edit-path="settings.instagram">
+          <a href="<%= site.settings.instagramUrl %>" target="_blank" rel="noopener" class="contact-card" <%- editAttrs("box","settings.instagram") %>>
             <span class="contact-logo instagram-logo">◎</span>
-            <b data-edit-type="text" data-edit-path="settings.instagramLabel">Instagram</b>
-            <span data-edit-type="text" data-edit-path="settings.instagram">@<%= site.settings.instagram %></span>
+            <b <%- editAttrs("text","labels.instagram") %>><%= site.labels?.instagram || "Instagram" %></b>
+            <span <%- editAttrs("text","settings.instagram") %>>@<%= site.settings.instagram %></span>
           </a>
-          <a href="mailto:<%= site.settings.email %>" class="contact-card" data-edit-type="box" data-edit-path="settings.email">
+          <a href="mailto:<%= site.settings.email %>" class="contact-card" <%- editAttrs("box","settings.email") %>>
             <span class="contact-logo email-logo">✉</span>
-            <b data-edit-type="text" data-edit-path="settings.emailLabel">Email</b>
-            <span data-edit-type="text" data-edit-path="settings.email"><%= site.settings.email %></span>
+            <b <%- editAttrs("text","labels.email") %>><%= site.labels?.email || "Email" %></b>
+            <span <%- editAttrs("text","settings.email") %>><%= site.settings.email %></span>
           </a>
-          <div class="contact-card" data-edit-type="box" data-edit-path="settings.address">
+          <div class="contact-card" <%- editAttrs("box","settings.address") %>>
             <span class="contact-logo studio-logo">⌂</span>
-            <b data-edit-type="text" data-edit-path="settings.studioLabel">Studio</b>
-            <span data-edit-type="text" data-edit-path="settings.address"><%= site.settings.address %><br><%= site.settings.city %></span>
+            <b <%- editAttrs("text","labels.studio") %>><%= site.labels?.studio || "Studio" %></b>
+            <span <%- editAttrs("text","settings.address") %>><%= site.settings.address %><br><%= site.settings.city %></span>
           </div>
         </div>
       </div>
@@ -323,10 +326,10 @@
     <% if(section === 'contact'){ renderContact(); } %>
   <% }) %>
 
-  <footer>
+  <footer <%- editAttrs("section","footer") %>>
     <div class="container footer-grid">
-      <p>© 2026 <%= site.settings.siteName %>. Tutti i diritti riservati.</p>
-      <p><%= site.settings.albo %> · <%= site.settings.piva %> · <a href="<%= site.settings.instagramUrl %>" target="_blank" rel="noopener">@<%= site.settings.instagram %></a> · <%= site.settings.footerText %></p>
+      <p><span <%- editAttrs("text","settings.footerCopyright") %>>© 2026 <%= site.settings.siteName %>. Tutti i diritti riservati.</span></p>
+      <p><span <%- editAttrs("text","settings.albo") %>><%= site.settings.albo %></span> · <span <%- editAttrs("text","settings.piva") %>><%= site.settings.piva %></span> · <a href="<%= site.settings.instagramUrl %>" target="_blank" rel="noopener">@<%= site.settings.instagram %></a> · <span <%- editAttrs("text","settings.footerText") %>><%= site.settings.footerText %></span></p>
     </div>
   </footer>
 </body>
