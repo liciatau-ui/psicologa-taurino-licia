@@ -36,7 +36,6 @@
   <% const waLink = "https://wa.me/" + site.settings.whatsapp + "?text=" + encodeURIComponent(site.settings.whatsappMessage || "Buongiorno Dott.ssa Taurino, vorrei ricevere informazioni per prenotare un primo colloquio."); %>
   <% function visualStyle(path){ const s=(site.visualStyles && site.visualStyles[path]) || {}; return Object.entries(s).map(([k,v]) => v !== undefined && v !== '' ? `${k.replace(/[A-Z]/g,m=>'-'+m.toLowerCase())}:${v}` : '').join(';'); } %>
   <% function editAttrs(type,path){ return `data-edit-type="${type}" data-edit-path="${path}" style="${visualStyle(path)}"`; } %>
-  <% const waLink = "https://wa.me/" + site.settings.whatsapp + "?text=" + encodeURIComponent(site.settings.whatsappMessage || "Buongiorno Dott.ssa Taurino, vorrei ricevere informazioni per prenotare un primo colloquio."); %>
   <header class="hero" id="home">
     <div class="ambient ambient-one"></div>
     <div class="ambient ambient-two"></div>
