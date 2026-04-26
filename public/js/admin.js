@@ -17,7 +17,7 @@ async function uploadImage(path,input){const fd=new FormData();fd.append('image'
 function imageField(path,label){return `<div class="field"><label>${label}</label><input value="${escapeHtml(get(path)||'')}" onchange="set('${path}',this.value)" placeholder="URL immagine"><input type="file" accept="image/*" onchange="uploadImage('${path}',this)"></div>`}
 function renderContent(){
 let html='';
-html+=`<div class="group"><h2>Impostazioni contatti</h2><div class="row">${input('settings.siteName','Nome sito')}${input('settings.logoText','Testo logo')}${input('settings.whatsapp','WhatsApp senza +')}${input('settings.phone','Telefono')}${input('settings.email','Email')}${input('settings.city','Città')}</div>${textarea('settings.address','Indirizzo')}${input('settings.albo','Albo')}${input('settings.piva','P.IVA')}</div>`;
+html+=`<details class="group"><summary>Impostazioni contatti</summary><div class="row">${input('settings.siteName','Nome sito')}${input('settings.logoText','Testo logo')}${input('settings.whatsapp','WhatsApp senza +')}${input('settings.phone','Telefono')}${input('settings.email','Email')}${input('settings.city','Città')}</div>${textarea('settings.address','Indirizzo')}${input('settings.albo','Albo')}${input('settings.piva','P.IVA')}</details>`;
 html+=sectionBasic('hero','Hero / Prima schermata',['eyebrow','title','subtitle','primaryButton','secondaryButton'],true);
 html+=listObjects('services.items','Servizi','services',['title','text']);
 html+=listStrings('bes.items','BES e DSA','bes');
@@ -29,9 +29,25 @@ html+=listObjects('articles.items','Articoli','articles',['title','text']);
 html+=sectionBasic('contact','Contatti',['eyebrow','title','text']);
 document.getElementById('tab-content').innerHTML=html;
 }
-function sectionBasic(key,title,fields,img=false){let html=`<div class="group"><h2>${title}</h2>${checkbox(key+'.visible','Mostra sezione')}`;fields.forEach(f=>{html+=f==='title'?textarea(`${key}.${f}`,f):textarea(`${key}.${f}`,f)});if(img)html+=imageField(`${key}.image`,'Immagine');return html+'</div>'}
-function listObjects(path,title,section,fields){let arr=get(path);let html=`<div class="group"><h2>${title}</h2>${checkbox(section+'.visible','Mostra sezione')}`;arr.forEach((it,i)=>{html+=`<div class="item"><b>Elemento ${i+1}</b>`;fields.forEach(f=>html+=textarea(`${path}.${i}.${f}`,f));html+=`<div class="mini-actions"><button class="danger" onclick="removeItem('${path}',${i})">Elimina</button></div></div>`});html+=`<button class="add" onclick="addObject('${path}',{title:'Nuovo titolo',text:'Nuovo testo'})">+ Aggiungi</button></div>`;return html}
-function listStrings(path,title,section){let arr=get(path);let html=`<div class="group"><h2>${title}</h2>${checkbox(section+'.visible','Mostra sezione')}`;arr.forEach((it,i)=>{html+=`<div class="item">${textarea(`${path}.${i}`,'Voce '+(i+1))}<button class="danger" onclick="removeItem('${path}',${i})">Elimina</button></div>`});html+=`<button class="add" onclick="addString('${path}')">+ Aggiungi voce</button></div>`;return html}
-function renderStyle(){document.getElementById('tab-style').innerHTML=`<div class="group"><h2>Grafica globale</h2><div class="row">${color('settings.primaryColor','Colore principale')}${color('settings.secondaryColor','Colore secondario')}${color('settings.accentColor','Colore scuro')}${color('settings.backgroundColor','Sfondo')}${color('settings.textColor','Testo')}${select('settings.fontFamily','Font',['Inter','Montserrat','Playfair Display'])}${number('settings.titleSize','Dimensione titolo hero')}${number('settings.textSize','Dimensione testo')}${number('settings.radius','Arrotondamento box')}${select('settings.alignment','Allineamento',['left','center','right'])}</div></div><div class="group"><h2>Menu</h2>${site.nav.map((n,i)=>`<div class="item">${input(`nav.${i}.label`,'Etichetta')}${input(`nav.${i}.href`,'Link')}<button class="danger" onclick="removeItem('nav',${i})">Elimina</button></div>`).join('')}<button class="add" onclick="addObject('nav',{label:'Nuova voce',href:'#'})">+ Aggiungi voce menu</button></div>`}
+function sectionBasic(key,title,fields,img=false){let html=`<details class="group"><summary>${title}</summary>${checkbox(key+'.visible','Mostra sezione')}`;fields.forEach(f=>{html+=f==='title'?textarea(`${key}.${f}`,f):textarea(`${key}.${f}`,f)});if(img)html+=imageField(`${key}.image`,'Immagine');return html+'</details>'}
+function listObjects(path,title,section,fields){let arr=get(path);let html=`<details class="group"><summary>${title}</summary>${checkbox(section+'.visible','Mostra sezione')}`;arr.forEach((it,i)=>{html+=`<div class="item"><b>Elemento ${i+1}</b>`;fields.forEach(f=>html+=textarea(`${path}.${i}.${f}`,f));html+=`<div class="mini-actions"><button class="danger" onclick="removeItem('${path}',${i})">Elimina</button></div></div>`});html+=`<button class="add" onclick="addObject('${path}',{title:'Nuovo titolo',text:'Nuovo testo'})">+ Aggiungi</button></details>`;return html}
+function listStrings(path,title,section){let arr=get(path);let html=`<details class="group"><summary>${title}</summary>${checkbox(section+'.visible','Mostra sezione')}`;arr.forEach((it,i)=>{html+=`<div class="item">${textarea(`${path}.${i}`,'Voce '+(i+1))}<button class="danger" onclick="removeItem('${path}',${i})">Elimina</button></div>`});html+=`<button class="add" onclick="addString('${path}')">+ Aggiungi voce</button></details>`;return html}
+function renderStyle(){document.getElementById('tab-style').innerHTML=`<details class="group"><summary>Grafica globale</summary><div class="row">${color('settings.primaryColor','Colore principale')}${color('settings.secondaryColor','Colore secondario')}${color('settings.accentColor','Colore scuro')}${color('settings.backgroundColor','Sfondo')}${color('settings.textColor','Testo')}${select('settings.fontFamily','Font',['Inter','Montserrat','Playfair Display'])}${number('settings.titleSize','Dimensione titolo hero')}${number('settings.textSize','Dimensione testo')}${number('settings.radius','Arrotondamento box')}${select('settings.alignment','Allineamento',['left','center','right'])}</div></details><details class="group"><summary>Menu sito</summary>${site.nav.map((n,i)=>`<div class="item">${input(`nav.${i}.label`,'Etichetta')}${input(`nav.${i}.href`,'Link')}<button class="danger" onclick="removeItem('nav',${i})">Elimina</button></div>`).join('')}<button class="add" onclick="addObject('nav',{label:'Nuova voce',href:'#'})">+ Aggiungi voce menu</button></details>`}
 function render(){renderContent();renderStyle();refreshJson()}
 render();
+
+
+function jumpAdminSection(title){
+  if(!title) return;
+  const groups=[...document.querySelectorAll('.group')];
+  const found=groups.find(g => (g.querySelector('summary')?.textContent || '').trim() === title);
+  if(found){
+    found.open = true;
+    found.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+}
+function openFirstGroup(){
+  const first=document.querySelector('.tab.active .group');
+  if(first) first.open=true;
+}
+setTimeout(openFirstGroup,50);

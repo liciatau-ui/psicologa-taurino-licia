@@ -19,6 +19,19 @@
         <button onclick="showTab('content')">Contenuti</button>
         <button onclick="showTab('style')">Grafica</button>
         <button onclick="showTab('json')">JSON avanzato</button>
+        <select class="admin-jump" onchange="jumpAdminSection(this.value); this.value='';">
+          <option value="">Vai a una sezione...</option>
+          <option value="Impostazioni contatti">Impostazioni contatti</option>
+          <option value="Hero / Prima schermata">Hero / Prima schermata</option>
+          <option value="Servizi">Servizi</option>
+          <option value="BES e DSA">BES e DSA</option>
+          <option value="Chi sono">Chi sono</option>
+          <option value="Passaggi primo colloquio">Passaggi primo colloquio</option>
+          <option value="Articoli">Articoli</option>
+          <option value="Contatti">Contatti</option>
+          <option value="Grafica globale">Grafica globale</option>
+          <option value="Menu sito">Menu sito</option>
+        </select>
         <form method="post" action="/admin/save" onsubmit="syncAndSave()">
           <input type="hidden" name="siteJson" id="siteJson">
           <button class="save">Salva tutto</button>

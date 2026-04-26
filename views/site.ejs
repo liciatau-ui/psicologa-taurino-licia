@@ -32,12 +32,13 @@
         <span class="brand-logo"><%= site.settings.logoText %></span>
         <span><small>Psicologa</small><strong><%= site.settings.siteName %></strong></span>
       </a>
-      <div class="nav-links">
+      <button class="menu-toggle" type="button" aria-label="Apri menu" onclick="document.body.classList.toggle('menu-open')">☰ Menu</button>
+      <div class="nav-links dropdown-menu" id="siteMenu">
         <% site.nav.forEach(function(item){ %>
-          <a href="<%= item.href %>"><%= item.label %></a>
+          <a href="<%= item.href %>" onclick="document.body.classList.remove('menu-open')"><%= item.label %></a>
         <% }) %>
       </div>
-      <a class="btn small" href="#contatti">Prenota</a>
+      <a class="btn small nav-cta" href="#contatti">Prenota</a>
     </nav>
 
     <% if(site.hero.visible){ %>
