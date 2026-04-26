@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Admin visuale</title>
+  <link rel="stylesheet" href="/css/admin-visual.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <b>Admin visuale</b>
+      <span>Clicca un elemento del sito e modifica le impostazioni a destra</span>
+    </div>
+    <div class="actions">
+      <a href="/admin">Admin classico</a>
+      <a href="/" target="_blank">Apri sito</a>
+      <button onclick="saveVisual()">Salva</button>
+    </div>
+  </header>
+
+  <main class="visual-layout">
+    <section class="site-preview" id="sitePreview">
+      <iframe id="siteFrame" src="/preview?visual=1"></iframe>
+    </section>
+
+    <aside class="panel">
+      <h2>Impostazioni</h2>
+      <p id="selectedInfo">Clicca una scritta, immagine, box, menu o sezione nell’anteprima.</p>
+
+      <div id="controls" class="controls empty">
+        <p>Nessun elemento selezionato.</p>
+      </div>
+    </aside>
+  </main>
+
+<script>
+let site = <%- JSON.stringify(site) %>;
+</script>
+<script src="/js/admin-visual.js"></script>
+</body>
+</html>

@@ -279,12 +279,33 @@
           <h2><%= site.contact.title %></h2>
           <p class="lead narrow"><%= site.contact.text %></p>
         </div>
-        <div class="contact-grid">
-          <a href="tel:<%= site.settings.phone.replace(/\s/g,'') %>"><b>Telefono</b><span><%= site.settings.phone %></span></a>
-          <a href="<%= waLink %>" target="_blank" rel="noopener"><b>WhatsApp</b><span><%= site.settings.phone %></span></a>
-          <a href="<%= site.settings.instagramUrl %>" target="_blank" rel="noopener"><b>Instagram</b><span>@<%= site.settings.instagram %></span></a>
-          <a href="mailto:<%= site.settings.email %>"><b>Email</b><span><%= site.settings.email %></span></a>
-          <div><b>Studio</b><span><%= site.settings.address %><br><%= site.settings.city %></span></div>
+        <div class="contact-grid contact-grid-original-icons">
+          <a href="tel:<%= site.settings.phone.replace(/\s/g,'') %>" class="contact-card">
+            <span class="contact-logo">☎</span>
+            <b>Telefono</b>
+            <span><%= site.settings.phone %></span>
+          </a>
+          <a href="<%= waLink %>" target="_blank" rel="noopener" class="contact-card">
+            <span class="contact-logo">💬</span>
+            <b>WhatsApp</b>
+            <span><%= site.settings.phone %></span>
+          </a>
+          <a href="<%= site.settings.instagramUrl %>" target="_blank" rel="noopener" class="contact-card">
+            <span class="contact-logo">◎</span>
+            <b>Instagram</b>
+            <span>@<%= site.settings.instagram %></span>
+          </a>
+          <a href="mailto:<%= site.settings.email %>" class="contact-card">
+            <span class="contact-logo">✉</span>
+            <b>Email</b>
+            <span><%= site.settings.email %></span>
+          </a>
+          <div class="contact-card">
+            <span class="contact-logo">⌖</span>
+            <b>Studio</b>
+            <span><%= site.settings.address %><br><%= site.settings.city %></span>
+          </div>
+        </div>
         </div>
       </div>
     </section>

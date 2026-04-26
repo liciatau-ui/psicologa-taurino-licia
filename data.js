@@ -42,11 +42,10 @@ const defaultSite = {
     { label: "BES e DSA", href: "#bes", visible: true },
     { label: "Stimolazione cognitiva", href: "#stimolazione", visible: true },
     { label: "Chi sono", href: "#chi-sono", visible: true },
-    { label: "Boot camp", href: "#bootcamp", visible: true },
     { label: "Contatti", href: "#contatti", visible: true }
   ],
 
-  sectionOrder: ["parents", "services", "bes", "cognitive", "about", "bootcamps", "process", "articles", "contact"],
+  sectionOrder: ["parents", "services", "bes", "cognitive", "about", "process", "articles", "contact", "bootcamps"],
 
   hero: {
     visible: true,
@@ -136,7 +135,7 @@ const defaultSite = {
   },
 
   bootcamps: {
-    visible: true,
+    visible: false,
     layout: "poster-grid",
     eyebrow: "Laboratori e boot camp",
     title: "Esperienze pensate per bambini e ragazzi.",

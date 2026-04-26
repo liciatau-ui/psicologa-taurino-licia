@@ -40,20 +40,20 @@ function upgradeSite(saved) {
 
   site.parents = deepMerge(defaultSite.parents, site.parents || {});
   site.bootcamps = deepMerge(defaultSite.bootcamps, site.bootcamps || {});
+  site.bootcamps.visible = false;
   site.cognitive = deepMerge(defaultSite.cognitive, site.cognitive || {});
 
   if (!Array.isArray(site.nav)) site.nav = defaultSite.nav;
   [
     { label: "Genitori", href: "#genitori", visible: true },
-    { label: "Boot camp", href: "#bootcamp", visible: true },
     { label: "Stimolazione cognitiva", href: "#stimolazione", visible: true }
   ].forEach(item => {
     if (!site.nav.some(n => n.href === item.href)) site.nav.push(item);
   });
-  site.nav = site.nav.map(n => ({ visible: true, ...n }));
+  site.nav = site.nav.filter(n => n.href !== "#bootcamp").map(n => ({ visible: true, ...n }));
 
   if (!Array.isArray(site.sectionOrder) || site.sectionOrder.length === 0) site.sectionOrder = defaultSite.sectionOrder;
-  ["parents", "services", "bes", "cognitive", "about", "bootcamps", "process", "articles", "contact"].forEach(s => {
+  ["parents", "services", "bes", "cognitive", "about", "process", "articles", "contact", "bootcamps"].forEach(s => {
     if (!site.sectionOrder.includes(s)) site.sectionOrder.push(s);
   });
 
