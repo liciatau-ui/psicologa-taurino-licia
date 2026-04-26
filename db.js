@@ -7,7 +7,9 @@ const pool = new Pool({
 });
 
 function deepMerge(defaultObj, savedObj) {
-  if (Array.isArray(defaultObj)) return Array.isArray(savedObj) ? savedObj : defaultObj;
+  if (Array.isArray(defaultObj)) {
+    return Array.isArray(savedObj) ? savedObj : defaultObj;
+  }
   if (defaultObj && typeof defaultObj === 'object') {
     const result = { ...defaultObj };
     if (savedObj && typeof savedObj === 'object') {
@@ -20,27 +22,36 @@ function deepMerge(defaultObj, savedObj) {
   return savedObj !== undefined && savedObj !== null ? savedObj : defaultObj;
 }
 
-function applyRequestedUpdates(site) {
-  site.settings = site.settings || {};
+function upgradeSite(saved) {
+  const site = deepMerge(defaultSite, saved || {});
+
   site.settings.phone = "+39 392 522 9478";
   site.settings.whatsapp = "393925229478";
-  site.settings.albo = "Iscrizione nr. 8233";
   site.settings.instagram = "liciataurino.psicologa";
   site.settings.instagramUrl = "https://www.instagram.com/liciataurino.psicologa/";
+  site.settings.albo = "Iscrizione nr. 8233";
 
-  site.nav = site.nav || [];
-  if (!site.nav.some(item => item.href === "#stimolazione")) {
-    const besIndex = site.nav.findIndex(item => item.href === "#bes");
-    const newItem = { label: "Stimolazione cognitiva", href: "#stimolazione" };
-    if (besIndex >= 0) site.nav.splice(besIndex + 1, 0, newItem);
-    else site.nav.push(newItem);
+  site.hero.image = site.hero.image || "/img/licia-taurino.jpg";
+  site.about.image = "/img/licia-taurino.jpg";
+  site.about.name = site.about.name || "LICIA TAURINO";
+  site.about.alboText = site.about.alboText || "Iscrizione nr. 8233";
+
+  if (!Array.isArray(site.nav)) site.nav = defaultSite.nav;
+  if (!site.nav.some(n => n.href === "#stimolazione")) {
+    site.nav.splice(3, 0, { label: "Stimolazione cognitiva", href: "#stimolazione", visible: true });
+  }
+  site.nav = site.nav.map(n => ({ visible: true, ...n }));
+
+  if (!Array.isArray(site.sectionOrder) || site.sectionOrder.length === 0) {
+    site.sectionOrder = defaultSite.sectionOrder;
+  }
+  if (!site.sectionOrder.includes("cognitive")) {
+    const index = site.sectionOrder.indexOf("bes");
+    if (index >= 0) site.sectionOrder.splice(index + 1, 0, "cognitive");
+    else site.sectionOrder.push("cognitive");
   }
 
-  site.about = site.about || {};
-  site.about.image = "/img/licia-taurino.jpg";
-  site.about.text = site.about.text || "Psicologa con esperienza nel supporto psicologico, nella valutazione e negli interventi rivolti a bambini, adulti e anziani. Mi occupo di stimolazione cognitiva, difficoltà emotive e supporto alle famiglie.";
-  site.cognitive = site.cognitive || defaultSite.cognitive;
-
+  site.cognitive = deepMerge(defaultSite.cognitive, site.cognitive || {});
   return site;
 }
 
@@ -52,18 +63,17 @@ async function initDb() {
   )`);
   const existing = await pool.query('SELECT id FROM site_content WHERE id = 1');
   if (existing.rowCount === 0) {
-    await pool.query('INSERT INTO site_content (id, data) VALUES (1, $1)', [applyRequestedUpdates(defaultSite)]);
+    await pool.query('INSERT INTO site_content (id, data) VALUES (1, $1)', [upgradeSite(defaultSite)]);
   }
 }
 
 async function getSite() {
   const result = await pool.query('SELECT data FROM site_content WHERE id = 1');
-  const saved = result.rows[0]?.data || {};
-  return applyRequestedUpdates(deepMerge(defaultSite, saved));
+  return upgradeSite(result.rows[0]?.data || {});
 }
 
 async function saveSite(data) {
-  await pool.query('UPDATE site_content SET data = $1, updated_at = NOW() WHERE id = 1', [applyRequestedUpdates(data)]);
+  await pool.query('UPDATE site_content SET data = $1, updated_at = NOW() WHERE id = 1', [upgradeSite(data)]);
 }
 
 module.exports = { pool, initDb, getSite, saveSite };

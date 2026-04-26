@@ -8,49 +8,71 @@
 <body>
   <div class="admin-shell">
     <aside>
+      <div class="admin-logo">LT</div>
       <h1>Admin sito</h1>
-      <p>Modifica tutto il sito: testi, colori, font, dimensioni, allineamento e sezioni.</p>
-      <a href="/" target="_blank">Apri sito</a>
+      <p>Modifica contenuti, grafica, menu, ordine sezioni, immagini e layout.</p>
+      <a class="open-site" href="/" target="_blank">Apri sito</a>
+      <a class="open-site ghost" href="/preview" target="_blank">Anteprima</a>
       <form method="post" action="/admin/logout"><button class="secondary">Esci</button></form>
     </aside>
+
     <main>
       <% if(saved){ %><div class="saved">Modifiche salvate correttamente.</div><% } %>
+
       <div class="toolbar">
-        <button onclick="showTab('content')">Contenuti</button>
-        <button onclick="showTab('style')">Grafica</button>
-        <button onclick="showTab('json')">JSON avanzato</button>
-        <select class="admin-jump" onchange="jumpAdminSection(this.value); this.value='';">
+        <button type="button" onclick="showTab('content')">Contenuti</button>
+        <button type="button" onclick="showTab('style')">Grafica e layout</button>
+        <button type="button" onclick="showTab('menu')">Menu e ordine</button>
+        <button type="button" onclick="showTab('json')">Avanzato</button>
+
+        <select class="admin-jump" onchange="jumpAdminSection(this.value);this.value=''">
           <option value="">Vai a una sezione...</option>
-          <option value="Impostazioni contatti">Impostazioni contatti</option>
+          <option value="Impostazioni generali">Impostazioni generali</option>
           <option value="Hero / Prima schermata">Hero / Prima schermata</option>
           <option value="Servizi">Servizi</option>
           <option value="BES e DSA">BES e DSA</option>
           <option value="Stimolazione cognitiva">Stimolazione cognitiva</option>
-          <option value="Testo stimolazione cognitiva">Testo stimolazione cognitiva</option>
           <option value="Chi sono">Chi sono</option>
-          <option value="Passaggi primo colloquio">Passaggi primo colloquio</option>
+          <option value="Primo colloquio">Primo colloquio</option>
           <option value="Articoli">Articoli</option>
           <option value="Contatti">Contatti</option>
-          <option value="Grafica globale">Grafica globale</option>
+          <option value="Colori e font">Colori e font</option>
+          <option value="Spazi e grandezze">Spazi e grandezze</option>
           <option value="Menu sito">Menu sito</option>
+          <option value="Ordine sezioni">Ordine sezioni</option>
         </select>
-        <form method="post" action="/admin/save" onsubmit="syncAndSave()">
+
+        <form method="post" action="/admin/save" onsubmit="syncAndSave(event)" class="save-form">
           <input type="hidden" name="siteJson" id="siteJson">
           <button class="save">Salva tutto</button>
         </form>
       </div>
+
       <div class="workspace">
         <section class="editor">
           <div id="tab-content" class="tab active"></div>
           <div id="tab-style" class="tab"></div>
-          <div id="tab-json" class="tab"><textarea id="jsonArea"></textarea></div>
+          <div id="tab-menu" class="tab"></div>
+          <div id="tab-json" class="tab">
+            <details class="group" open>
+              <summary>JSON avanzato</summary>
+              <p class="hint">Usalo solo se sai cosa stai modificando. Prima di salvare controlla che il JSON sia valido.</p>
+              <textarea id="jsonArea"></textarea>
+            </details>
+          </div>
         </section>
+
         <section class="preview">
-          <iframe src="/preview"></iframe>
+          <div class="preview-head">
+            <b>Anteprima sito</b>
+            <button type="button" onclick="refreshPreview()">Aggiorna anteprima</button>
+          </div>
+          <iframe id="previewFrame" src="/preview"></iframe>
         </section>
       </div>
     </main>
   </div>
+
 <script>
 let site = <%- JSON.stringify(site) %>;
 </script>
