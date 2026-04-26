@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Modifica Sito</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #2d6cdf;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Admin Sito Psicologa</h1>
+
+<div class="card">
+    <h2>Homepage</h2>
+
+    <label>Titolo principale</label>
+    <input type="text" placeholder="Inserisci titolo">
+
+    <label>Testo descrizione</label>
+    <textarea rows="4" placeholder="Inserisci testo"></textarea>
+
+    <button>Salva</button>
+</div>
+
+<div class="card">
+    <h2>Colori</h2>
+
+    <label>Colore principale</label>
+    <input type="color">
+
+    <label>Colore testo</label>
+    <input type="color">
+
+    <button>Salva</button>
+</div>
+
+<div class="card">
+    <h2>Font e Dimensione</h2>
+
+    <label>Font</label>
+    <input type="text" placeholder="es. Arial">
+
+    <label>Dimensione testo</label>
+    <input type="number" placeholder="es. 16">
+
+    <button>Salva</button>
+</div>
+
+</body>
+</html>
