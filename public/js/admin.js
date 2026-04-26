@@ -1,47 +1,279 @@
-let selected = null;
-const sectionNames={services:'Servizi',bes:'BES e DSA',cognitive:'Stimolazione cognitiva',about:'Chi sono',process:'Primo colloquio',articles:'Articoli',contact:'Contatti'};
-function esc(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
-function get(path){return path.split('.').reduce((o,k)=>o?.[k],site)}
-function set(path,val){const keys=path.split('.');let o=site;keys.slice(0,-1).forEach(k=>{if(o[k]===undefined)o[k]={};o=o[k]});o[keys.at(-1)]=val}
-function styleObj(key){site.styles=site.styles||{};site.styles[key]=site.styles[key]||{};return site.styles[key]}
-function styleInline(key){const s=(site.styles||{})[key]||{};let out='';if(s.color)out+=`color:${s.color};`;if(s.background)out+=`background:${s.background};`;if(s.fontSize)out+=`font-size:${s.fontSize}px;`;if(s.bold)out+='font-weight:900;';if(s.align)out+=`text-align:${s.align};`;if(s.width)out+=`width:${s.width}%;`;if(s.height)out+=`height:${s.height}px;`;if(s.paddingTop)out+=`padding-top:${s.paddingTop}px;`;if(s.paddingBottom)out+=`padding-bottom:${s.paddingBottom}px;`;if(s.radius)out+=`border-radius:${s.radius}px;`;if(s.objectPosition)out+=`object-position:${s.objectPosition};`;return out}
-function cls(path,type,label){return `class="inspectable" data-path="${path}" data-type="${type}" data-label="${esc(label)}" style="${styleInline(path)}"`}
-function wa(){return 'https://wa.me/'+site.settings.whatsapp+'?text='+encodeURIComponent(site.settings.whatsappMessage||'Buongiorno Dott.ssa Taurino, vorrei ricevere informazioni per prenotare un primo colloquio.')}
+const sectionLabels = {
+  parents: "Genitori",
+  services: "Servizi",
+  bes: "BES e DSA",
+  cognitive: "Stimolazione cognitiva",
+  about: "Chi sono",
+  process: "Primo colloquio",
+  articles: "Articoli",
+  contact: "Contatti",
+  bootcamps: "Boot camp / locandine"
+};
 
-function renderVisualSite(){
-  const root=document.getElementById('visualSite');
-  root.style.setProperty('--primary',site.settings.primaryColor);root.style.setProperty('--secondary',site.settings.secondaryColor);root.style.setProperty('--accent',site.settings.accentColor);root.style.setProperty('--bg',site.settings.backgroundColor);root.style.setProperty('--card',site.settings.cardColor||'#fff');root.style.setProperty('--text',site.settings.textColor);root.style.setProperty('--muted',site.settings.mutedColor||'#60706B');root.style.setProperty('--font',`'${site.settings.fontFamily}', Inter, sans-serif`);root.style.setProperty('--heading',`'${site.settings.headingFont||site.settings.fontFamily}', serif`);root.style.setProperty('--title-size',site.settings.titleSize+'px');root.style.setProperty('--section-title-size',(site.settings.sectionTitleSize||42)+'px');root.style.setProperty('--text-size',site.settings.textSize+'px');root.style.setProperty('--menu-size',(site.settings.menuSize||15)+'px');root.style.setProperty('--radius',site.settings.radius+'px');root.style.setProperty('--container',(site.settings.containerWidth||1180)+'px');root.style.setProperty('--section-space',(site.settings.sectionSpacing||88)+'px');root.style.setProperty('--align',site.settings.alignment||'left');root.style.setProperty('--button-radius',(site.settings.buttonRadius||999)+'px');
-  let html=`<header ${cls('hero.section','section','Hero / Prima schermata')} id="home"><div class="ambient ambient-one"></div><div class="ambient ambient-two"></div><nav class="nav glass menu-${site.settings.menuPosition||'center'}" ${rawStyle('menu.bar')}><a class="brand" href="#"><span ${cls('menu.logo','text','Logo')}>${esc(site.settings.logoText)}</span><span><small ${cls('menu.profession','text','Professione')}>${esc(site.settings.profession)}</small><strong ${cls('menu.siteName','text','Nome sito')}>${esc(site.settings.siteName)}</strong></span></a><div class="nav-links dropdown-menu">`;
-  (site.nav||[]).filter(n=>n.visible!==false).forEach((n,i)=>{html+=`<a href="${esc(n.href)}" ${cls('nav.'+i,'nav','Voce menu')}>${esc(n.label)}</a>`});
-  html+=`</div><a class="btn small nav-cta" href="#" ${cls('menu.button','text','Pulsante Prenota')}>Prenota</a></nav>`;
-  if(site.hero.visible){html+=`<section class="hero-grid container hero-layout-${site.hero.layout||'text-left'}"><div class="hero-copy"><p ${cls('hero.eyebrow','text','Hero sottotitolo piccolo')}>${esc(site.hero.eyebrow)}</p><h1 ${cls('hero.title','text','Hero titolo')}>${esc(site.hero.title)}</h1><p class="lead" ${attrNoClass('hero.subtitle','text','Hero descrizione')}>${esc(site.hero.subtitle)}</p><div class="actions"><a class="btn" ${cls('hero.primaryButton','text','Pulsante principale')}>💬 ${esc(site.hero.primaryButton)}</a><a class="btn ghost" ${cls('hero.secondaryButton','text','Pulsante secondario')}>${esc(site.hero.secondaryButton)} →</a></div></div><div class="hero-card inspectable" data-path="hero.imageCard" data-type="box" data-label="Box immagine hero" style="${styleInline('hero.imageCard')}">${site.hero.image?`<img src="${esc(site.hero.image)}" ${cls('hero.image','image','Immagine hero')} style="object-position:${esc(site.hero.imagePosition||'center top')};${styleInline('hero.image')}">`:''}<div ${cls('hero.badgeTop','text','Badge alto')}>${esc(site.hero.badgeTop)}</div><div ${cls('hero.badgeBottom','text','Badge basso')}>${esc(site.hero.badgeBottom)}</div></div></section>`}
-  html+=`</header>`;
-  (site.sectionOrder||[]).forEach(k=>{html+=sectionHTML(k)});
-  html+=`<footer ${cls('footer.section','section','Footer')}><div class="container footer-grid"><p ${cls('footer.left','text','Footer sinistra')}>© 2026 ${esc(site.settings.siteName)}. Tutti i diritti riservati.</p><p ${cls('footer.right','text','Footer destra')}>${esc(site.settings.albo)} · ${esc(site.settings.piva)} · @${esc(site.settings.instagram)} · ${esc(site.settings.footerText)}</p></div></footer>`;
-  root.innerHTML=html;
-  root.querySelectorAll('.inspectable').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();selectElement(el.dataset.path,el.dataset.type,el.dataset.label)}));
-  markSelected();
+function showTab(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if(name==='json') document.getElementById('jsonArea').value=JSON.stringify(site,null,2);
 }
-function rawStyle(path){return `style="${styleInline(path)}"`}
-function attrNoClass(path,type,label){return `class="lead inspectable" data-path="${path}" data-type="${type}" data-label="${esc(label)}" style="${styleInline(path)}"`}
-function sectionHTML(k){const s=site[k]; if(!s||!s.visible)return''; if(k==='services')return cardSection(k,'four'); if(k==='cognitive')return cardSection(k,'three','🧠'); if(k==='articles')return cardSection(k,'three'); if(k==='bes')return `<section class="section dark inspectable" id="bes" data-path="bes.section" data-type="section" data-label="Sezione BES e DSA" style="${styleInline('bes.section')}"><div class="container split"><div><p ${cls('bes.eyebrow','text','BES sottotitolo')}>${esc(s.eyebrow)}</p><h2 ${cls('bes.title','text','BES titolo')}>${esc(s.title)}</h2><p class="lead" ${attrNoClass('bes.text','text','BES testo')}>${esc(s.text)}</p></div><div class="chips">${(s.items||[]).map((it,i)=>`<span ${cls('bes.items.'+i,'text','Voce BES')}>✓ ${esc(it)}</span>`).join('')}</div></div></section>`; if(k==='about')return `<section class="section container split about-section inspectable" id="chi-sono" data-path="about.section" data-type="section" data-label="Sezione Chi sono" style="${styleInline('about.section')}"><div class="about-profile-card inspectable" data-path="about.imageCard" data-type="box" data-label="Box foto chi sono" style="${styleInline('about.imageCard')}">${s.image?`<img src="${esc(s.image)}" ${cls('about.image','image','Foto Licia Taurino')} style="object-position:${esc(s.imagePosition||'center top')};${styleInline('about.image')}">`:''}<div class="about-profile-text"><h3 ${cls('about.name','text','Nome sotto foto')}>${esc(s.name)}</h3><p ${cls('about.subtitle','text','Sottotitolo foto')}>${esc(s.subtitle)}</p><p ${cls('about.alboText','text','Iscrizione albo')}>${esc(s.alboText)}</p></div></div><div><p ${cls('about.eyebrow','text','Chi sono sottotitolo')}>${esc(s.eyebrow)}</p><h2 ${cls('about.title','text','Chi sono titolo')}>${esc(s.title)}</h2><p class="lead" ${attrNoClass('about.text','text','Chi sono testo')}>${esc(s.text)}</p></div></section>`; if(k==='process')return `<section class="section container inspectable" id="percorso" data-path="process.section" data-type="section" data-label="Sezione primo colloquio" style="${styleInline('process.section')}"><div class="process-box"><div><p ${cls('process.eyebrow','text','Primo colloquio sottotitolo')}>${esc(s.eyebrow)}</p><h2 ${cls('process.title','text','Primo colloquio titolo')}>${esc(s.title)}</h2><p ${cls('process.text','text','Primo colloquio testo')}>${esc(s.text)}</p></div><div class="steps">${(s.items||[]).map((it,i)=>`<div class="step inspectable" data-path="process.items.${i}" data-type="text" data-label="Step primo colloquio" style="${styleInline('process.items.'+i)}"><b>${i+1}</b><span>${esc(it)}</span></div>`).join('')}</div></div></section>`; if(k==='contact')return `<section class="section contact inspectable" id="contatti" data-path="contact.section" data-type="section" data-label="Sezione contatti" style="${styleInline('contact.section')}"><div class="container"><div class="section-head"><p ${cls('contact.eyebrow','text','Contatti sottotitolo')}>${esc(s.eyebrow)}</p><h2 ${cls('contact.title','text','Contatti titolo')}>${esc(s.title)}</h2><p class="lead narrow" ${attrNoClass('contact.text','text','Contatti testo')}>${esc(s.text)}</p></div><div class="contact-grid contact-grid-refined"><a class="contact-card inspectable" data-path="contact.phoneCard" data-type="box" data-label="Box telefono" style="${styleInline('contact.phoneCard')}"><small>Chiamata diretta</small><b>Telefono</b><span>${esc(site.settings.phone)}</span></a><a class="contact-card featured inspectable" data-path="contact.whatsappCard" data-type="box" data-label="Box WhatsApp" style="${styleInline('contact.whatsappCard')}"><small>Messaggio già pronto</small><b>WhatsApp</b><span>${esc(site.settings.phone)}</span></a><a class="contact-card inspectable" data-path="contact.instagramCard" data-type="box" data-label="Box Instagram" style="${styleInline('contact.instagramCard')}"><small>Profilo professionale</small><b>Instagram</b><span>@${esc(site.settings.instagram)}</span></a><a class="contact-card inspectable" data-path="contact.emailCard" data-type="box" data-label="Box Email" style="${styleInline('contact.emailCard')}"><small>Scrivi una email</small><b>Email</b><span>${esc(site.settings.email)}</span></a><div class="contact-card inspectable" data-path="contact.studioCard" data-type="box" data-label="Box Studio" style="${styleInline('contact.studioCard')}"><small>Ricevimento</small><b>Studio</b><span>${esc(site.settings.address)}<br>${esc(site.settings.city)}</span></div></div></div></section>`; return''}
-function cardSection(k,cols,icon='✦'){const s=site[k];return `<section class="section container inspectable" id="${k}" data-path="${k}.section" data-type="section" data-label="Sezione ${sectionNames[k]||k}" style="${styleInline(k+'.section')}"><div class="section-head"><p ${cls(k+'.eyebrow','text',sectionNames[k]+' sottotitolo')}>${esc(s.eyebrow)}</p><h2 ${cls(k+'.title','text',sectionNames[k]+' titolo')}>${esc(s.title)}</h2>${s.text?`<p class="lead narrow" ${attrNoClass(k+'.text','text',sectionNames[k]+' testo')}>${esc(s.text)}</p>`:''}</div><div class="cards ${cols}">${(s.items||[]).map((it,i)=>`<article class="card inspectable" data-path="${k}.items.${i}.card" data-type="box" data-label="Box ${sectionNames[k]}" style="${styleInline(k+'.items.'+i+'.card')}"><span class="icon">${icon}</span><h3 ${cls(k+'.items.'+i+'.title','text','Titolo box')}>${esc(it.title)}</h3><p ${cls(k+'.items.'+i+'.text','text','Testo box')}>${esc(it.text)}</p></article>`).join('')}</div></section>`}
 
-function selectElement(path,type,label){selected={path,type,label};document.getElementById('selectedLabel').textContent=label;renderInspector();markSelected()}
-function markSelected(){document.querySelectorAll('.inspectable').forEach(e=>e.classList.toggle('selected',selected&&e.dataset.path===selected.path))}
-function pathValue(path){if(path.startsWith('nav.')) return site.nav[Number(path.split('.')[1])]; const v=get(path); return v}
-function updatePathValue(v){if(!selected)return; if(selected.path.startsWith('nav.')){site.nav[Number(selected.path.split('.')[1])].label=v}else set(selected.path,v);renderVisualSite();renderInspector()}
-function renderInspector(){const box=document.getElementById('inspectorContent');document.getElementById('inspectorSub').textContent=selected.label;let html=''; if(selected.type==='text'||selected.type==='nav')html+=textControls(); if(selected.type==='image')html+=imageControls(); if(selected.type==='box'||selected.type==='section')html+=boxControls(); html+=styleControls(); box.className='inspector-content'; box.innerHTML=html}
-function group(t,b){return `<div class="editor-group"><h3>${t}</h3><div class="editor-group-body">${b}</div></div>`}
-function field(label,html){return `<div class="field"><label>${label}</label>${html}</div>`}
-function textControls(){let val=''; if(selected.path.startsWith('nav.')) val=pathValue(selected.path).label; else val=get(selected.path)||''; let extra=''; if(selected.path.startsWith('nav.')){const i=Number(selected.path.split('.')[1]);extra+=field('Link voce menu',`<input value="${esc(site.nav[i].href)}" onchange="site.nav[${i}].href=this.value;renderVisualSite();renderInspector()">`)+field('Visibile',`<select onchange="site.nav[${i}].visible=this.value==='true';renderVisualSite();renderInspector()"><option value="true" ${site.nav[i].visible!==false?'selected':''}>Sì</option><option value="false" ${site.nav[i].visible===false?'selected':''}>No</option></select>`)} return group('Contenuto',field('Testo',`<textarea onchange="updatePathValue(this.value)">${esc(val)}</textarea>`)+extra)}
-async function uploadFor(path,input){if(!input.files[0])return;const fd=new FormData();fd.append('image',input.files[0]);const r=await fetch('/admin/upload',{method:'POST',body:fd});const d=await r.json();if(d.url){set(path,d.url);renderVisualSite();renderInspector()}}
-function imageControls(){let path=selected.path.replace(/\.image$/,'')+'.image';let val=get(path)||'';return group('Immagine',`${val?`<img class="image-thumb" src="${esc(val)}">`:''}${field('URL immagine',`<input value="${esc(val)}" onchange="set('${path}',this.value);renderVisualSite();renderInspector()">`)}${field('Carica immagine',`<input type="file" accept="image/*" onchange="uploadFor('${path}',this)">`)}${field('Posizione immagine',`<input value="${esc(get(path.replace(/image$/,'imagePosition'))||'center top')}" onchange="set('${path.replace(/image$/,'imagePosition')}',this.value);styleObj('${selected.path}').objectPosition=this.value;renderVisualSite();renderInspector()">`)}<div class="button-row"><button class="mini-btn danger" onclick="set('${path}','');renderVisualSite();renderInspector()">Elimina immagine</button><button class="mini-btn" onclick="styleObj('${selected.path}').width=100;styleObj('${selected.path}').height=420;renderVisualSite();renderInspector()">Centra / standard</button></div>`)}
-function boxControls(){return group('Box / sezione',`${field('Sfondo',`<input type="color" value="${styleObj(selected.path).background||'#ffffff'}" onchange="styleObj('${selected.path}').background=this.value;renderVisualSite();renderInspector()">`)}<div class="row2">${field('Spazio sopra',`<input type="number" value="${styleObj(selected.path).paddingTop||''}" onchange="styleObj('${selected.path}').paddingTop=Number(this.value);renderVisualSite();renderInspector()">`)}${field('Spazio sotto',`<input type="number" value="${styleObj(selected.path).paddingBottom||''}" onchange="styleObj('${selected.path}').paddingBottom=Number(this.value);renderVisualSite();renderInspector()">`)}</div>${field('Arrotondamento',`<input type="number" value="${styleObj(selected.path).radius||''}" onchange="styleObj('${selected.path}').radius=Number(this.value);renderVisualSite();renderInspector()">`)}`)}
-function styleControls(){const s=styleObj(selected.path);return group('Stile',`<div class="row2">${field('Colore testo',`<input type="color" value="${s.color||site.settings.textColor||'#26322F'}" onchange="styleObj('${selected.path}').color=this.value;renderVisualSite();renderInspector()">`)}${field('Grandezza',`<input type="number" value="${s.fontSize||''}" placeholder="px" onchange="styleObj('${selected.path}').fontSize=Number(this.value);renderVisualSite();renderInspector()">`)}</div>${field('Allineamento',`<select onchange="styleObj('${selected.path}').align=this.value;renderVisualSite();renderInspector()"><option value="" ${!s.align?'selected':''}>Automatico</option><option value="left" ${s.align==='left'?'selected':''}>Sinistra</option><option value="center" ${s.align==='center'?'selected':''}>Centro</option><option value="right" ${s.align==='right'?'selected':''}>Destra</option></select>`)}${field('Grassetto',`<select onchange="styleObj('${selected.path}').bold=this.value==='true';renderVisualSite();renderInspector()"><option value="false" ${!s.bold?'selected':''}>No</option><option value="true" ${s.bold?'selected':''}>Sì</option></select>`)}${selected.type==='image'?`<div class="row2">${field('Larghezza %',`<input type="number" value="${s.width||''}" onchange="styleObj('${selected.path}').width=Number(this.value);renderVisualSite();renderInspector()">`)}${field('Altezza px',`<input type="number" value="${s.height||''}" onchange="styleObj('${selected.path}').height=Number(this.value);renderVisualSite();renderInspector()">`)}</div>`:''}<div class="button-row"><button class="mini-btn danger" onclick="delete site.styles['${selected.path}'];renderVisualSite();renderInspector()">Reset stile</button></div>`)}
-function selectGlobal(){selected={path:'settings',type:'global',label:'Impostazioni generali'};document.getElementById('selectedLabel').textContent='Impostazioni generali';document.getElementById('inspectorSub').textContent='Colori, font, contatti e messaggio WhatsApp';document.getElementById('inspectorContent').className='inspector-content';document.getElementById('inspectorContent').innerHTML=globalControls()}
-function globalControls(){return group('Contatti',field('Telefono',`<input value="${esc(site.settings.phone)}" onchange="site.settings.phone=this.value;renderVisualSite()">`)+field('WhatsApp senza +',`<input value="${esc(site.settings.whatsapp)}" onchange="site.settings.whatsapp=this.value;renderVisualSite()">`)+field('Messaggio WhatsApp preimpostato',`<textarea onchange="site.settings.whatsappMessage=this.value">${esc(site.settings.whatsappMessage||'')}</textarea>`)+field('Email',`<input value="${esc(site.settings.email)}" onchange="site.settings.email=this.value;renderVisualSite()">`)+field('Instagram',`<input value="${esc(site.settings.instagram)}" onchange="site.settings.instagram=this.value;renderVisualSite()">`)+field('Link Instagram',`<input value="${esc(site.settings.instagramUrl)}" onchange="site.settings.instagramUrl=this.value;renderVisualSite()">`)+field('Indirizzo',`<textarea onchange="site.settings.address=this.value;renderVisualSite()">${esc(site.settings.address)}</textarea>`))+group('Grafica generale',`<div class="row2">${field('Colore principale',`<input type="color" value="${site.settings.primaryColor}" onchange="site.settings.primaryColor=this.value;renderVisualSite()">`)}${field('Colore sfondo',`<input type="color" value="${site.settings.backgroundColor}" onchange="site.settings.backgroundColor=this.value;renderVisualSite()">`)}</div><div class="row2">${field('Font testi',`<select onchange="site.settings.fontFamily=this.value;renderVisualSite()"><option>Inter</option><option>Montserrat</option><option>Lora</option><option>Playfair Display</option></select>`)}${field('Grandezza testo',`<input type="number" value="${site.settings.textSize}" onchange="site.settings.textSize=Number(this.value);renderVisualSite()">`)}</div>`) }
-function selectMenuManager(){selected={path:'menuManager',type:'menuManager',label:'Menu e ordine sezioni'};document.getElementById('selectedLabel').textContent='Menu e ordine sezioni';let html=group('Voci menu',(site.nav||[]).map((n,i)=>`<div class="menu-item-admin"><b>Voce ${i+1}</b>${field('Nome',`<input value="${esc(n.label)}" onchange="site.nav[${i}].label=this.value;renderVisualSite();selectMenuManager()">`)}${field('Link',`<input value="${esc(n.href)}" onchange="site.nav[${i}].href=this.value;renderVisualSite();selectMenuManager()">`)}<div class="button-row"><button class="mini-btn" onclick="moveArr(site.nav,${i},-1);renderVisualSite();selectMenuManager()">↑</button><button class="mini-btn" onclick="moveArr(site.nav,${i},1);renderVisualSite();selectMenuManager()">↓</button><button class="mini-btn danger" onclick="site.nav.splice(${i},1);renderVisualSite();selectMenuManager()">Elimina</button></div></div>`).join('')+`<button class="mini-btn dark" onclick="site.nav.push({label:'Nuova voce',href:'#',visible:true});renderVisualSite();selectMenuManager()">+ Aggiungi voce</button>`)+group('Ordine sezioni',(site.sectionOrder||[]).map((k,i)=>`<div class="menu-item-admin"><b>${sectionNames[k]||k}</b><div class="button-row"><button class="mini-btn" onclick="moveArr(site.sectionOrder,${i},-1);renderVisualSite();selectMenuManager()">↑</button><button class="mini-btn" onclick="moveArr(site.sectionOrder,${i},1);renderVisualSite();selectMenuManager()">↓</button></div></div>`).join(''));document.getElementById('inspectorSub').textContent='Sposta menu e sezioni';document.getElementById('inspectorContent').className='inspector-content';document.getElementById('inspectorContent').innerHTML=html}
-function moveArr(a,i,d){let n=i+d;if(n<0||n>=a.length)return;[a[i],a[n]]=[a[n],a[i]]}
-function prepareSave(e){document.getElementById('siteJson').value=JSON.stringify(site)}
-renderVisualSite();
+function get(path){return path.split('.').reduce((o,k)=>o?.[k],site)}
+function set(path,val){
+  const keys=path.split('.');
+  let o=site;
+  keys.slice(0,-1).forEach(k=>{
+    if(o[k] === undefined) o[k] = {};
+    o=o[k];
+  });
+  const last=keys.at(-1);
+  const el=document.activeElement;
+  if(el && el.type==='number') val=Number(val);
+  o[last]=val;
+  refreshJson();
+}
+function escapeHtml(v){return String(v ?? '').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+function refreshJson(){const area=document.getElementById('jsonArea'); if(area) area.value=JSON.stringify(site,null,2)}
+function refreshPreview(){document.getElementById('previewFrame').src='/preview?time='+Date.now()}
+function syncAndSave(event){
+  try{
+    if(document.getElementById('tab-json').classList.contains('active')){
+      site=JSON.parse(document.getElementById('jsonArea').value);
+    }
+    document.getElementById('siteJson').value=JSON.stringify(site);
+  }catch(e){
+    event.preventDefault();
+    alert('JSON non valido: '+e.message);
+  }
+}
+
+function input(path,label,type='text',placeholder=''){
+  const value=get(path)??'';
+  return `<div class="field"><label>${label}</label><input type="${type}" value="${escapeHtml(value)}" placeholder="${escapeHtml(placeholder)}" onchange="set('${path}',this.value)"></div>`;
+}
+function textarea(path,label){
+  const value=get(path)??'';
+  return `<div class="field"><label>${label}</label><textarea onchange="set('${path}',this.value)">${escapeHtml(value)}</textarea></div>`;
+}
+function select(path,label,opts){
+  const value=get(path);
+  return `<div class="field"><label>${label}</label><select onchange="set('${path}',this.value)">${opts.map(o=>`<option value="${escapeHtml(o)}" ${o===value?'selected':''}>${escapeHtml(o)}</option>`).join('')}</select></div>`;
+}
+function checkbox(path,label){
+  const value=get(path);
+  return `<div class="field"><label><input type="checkbox" ${value?'checked':''} onchange="set('${path}',this.checked)"> ${label}</label></div>`;
+}
+function color(path,label){return input(path,label,'color')}
+function number(path,label){return input(path,label,'number')}
+function details(title,body,open=false){
+  return `<details class="group" ${open?'open':''}><summary>${title}</summary><div class="group-body">${body}</div></details>`;
+}
+async function uploadImage(path,input){
+  if(!input.files || !input.files[0]) return;
+  const fd=new FormData();
+  fd.append('image',input.files[0]);
+  const r=await fetch('/admin/upload',{method:'POST',body:fd});
+  const data=await r.json();
+  if(data.url){
+    set(path,data.url);
+    render();
+    alert('Immagine caricata');
+  } else alert('Errore upload immagine');
+}
+function imageField(path,label){
+  const value=get(path)||'';
+  return `<div class="field">
+    <label>${label}</label>
+    <input value="${escapeHtml(value)}" onchange="set('${path}',this.value)" placeholder="/img/licia-taurino.jpg oppure URL">
+    <input type="file" accept="image/*" onchange="uploadImage('${path}',this)">
+    ${value ? `<div class="image-preview"><img src="${escapeHtml(value)}"><span>Immagine attuale</span></div>` : ''}
+  </div>`;
+}
+
+function removeItem(path,i){get(path).splice(i,1);render()}
+function addObject(path,obj){get(path).push(obj);render()}
+function addString(path){get(path).push('Nuova voce');render()}
+function moveItem(path,i,dir){
+  const arr=get(path); const ni=i+dir;
+  if(ni<0 || ni>=arr.length) return;
+  [arr[i],arr[ni]]=[arr[ni],arr[i]];
+  render();
+}
+
+function sectionBasic(key,title,fields,img=false,extra=''){
+  let html=checkbox(key+'.visible','Mostra sezione');
+  html+=select(key+'.layout','Layout sezione', layoutOptions(key));
+  fields.forEach(f=>{
+    html+= f.includes('title') ? textarea(`${key}.${f}`,labelOf(f)) : textarea(`${key}.${f}`,labelOf(f));
+  });
+  if(img){
+    html+=imageField(`${key}.image`,'Immagine');
+    html+=input(`${key}.imagePosition`,'Posizione immagine','text','center top');
+  }
+  html+=extra;
+  return details(title,html);
+}
+function labelOf(f){
+  return ({eyebrow:'Sottotitolo piccolo',title:'Titolo',subtitle:'Testo descrittivo',text:'Testo',primaryButton:'Testo pulsante principale',secondaryButton:'Testo pulsante secondario',badgeTop:'Badge alto',badgeBottom:'Badge basso',name:'Nome sotto foto',alboText:'Iscrizione albo',footerText:'Testo footer'})[f] || f;
+}
+function layoutOptions(key){
+  if(key==='hero') return ['text-left','image-left'];
+  if(key==='about') return ['photo-left','photo-right'];
+  if(key==='parents') return ['split-cards'];
+  if(key==='bootcamps') return ['poster-grid'];
+  if(key==='services') return ['grid-4','grid-3'];
+  if(key==='bes') return ['dark-split'];
+  if(key==='process') return ['steps-right'];
+  if(key==='contact') return ['cards'];
+  return ['grid-3'];
+}
+
+function listObjects(path,title,section,fields){
+  let arr=get(path)||[];
+  let html=checkbox(section+'.visible','Mostra sezione');
+  html+=select(section+'.layout','Layout sezione', layoutOptions(section));
+  html+=textarea(section+'.eyebrow','Sottotitolo piccolo');
+  html+=textarea(section+'.title','Titolo sezione');
+  if(get(section+'.text') !== undefined) html+=textarea(section+'.text','Testo introduttivo');
+
+  arr.forEach((it,i)=>{
+    html+=`<div class="item"><div class="item-head"><b>Elemento ${i+1}</b><div class="mini-actions">
+      <button type="button" class="move" onclick="moveItem('${path}',${i},-1)">↑</button>
+      <button type="button" class="move" onclick="moveItem('${path}',${i},1)">↓</button>
+      <button type="button" class="danger" onclick="removeItem('${path}',${i})">Elimina</button>
+    </div></div>`;
+    fields.forEach(f=>html+=textarea(`${path}.${i}.${f}`,labelOf(f)));
+    html+=`</div>`;
+  });
+  html+=`<button type="button" class="add" onclick="addObject('${path}',{title:'Nuovo titolo',text:'Nuovo testo'})">+ Aggiungi elemento</button>`;
+  return details(title,html);
+}
+
+function listStrings(path,title,section){
+  let arr=get(path)||[];
+  let html=checkbox(section+'.visible','Mostra sezione');
+  html+=select(section+'.layout','Layout sezione', layoutOptions(section));
+  html+=textarea(section+'.eyebrow','Sottotitolo piccolo');
+  html+=textarea(section+'.title','Titolo sezione');
+  if(get(section+'.text') !== undefined) html+=textarea(section+'.text','Testo introduttivo');
+
+  arr.forEach((it,i)=>{
+    html+=`<div class="item"><div class="item-head"><b>Voce ${i+1}</b><div class="mini-actions">
+      <button type="button" class="move" onclick="moveItem('${path}',${i},-1)">↑</button>
+      <button type="button" class="move" onclick="moveItem('${path}',${i},1)">↓</button>
+      <button type="button" class="danger" onclick="removeItem('${path}',${i})">Elimina</button>
+    </div></div>${textarea(`${path}.${i}`,'Testo voce')}</div>`;
+  });
+  html+=`<button type="button" class="add" onclick="addString('${path}')">+ Aggiungi voce</button>`;
+  return details(title,html);
+}
+
+function renderContent(){
+  let html='';
+  html+=details('Impostazioni generali',
+    `<div class="row">
+      ${input('settings.siteName','Nome sito')}
+      ${input('settings.profession','Professione')}
+      ${input('settings.logoText','Testo logo')}
+      ${input('settings.whatsapp','WhatsApp senza +')}
+      ${input('settings.phone','Telefono')}
+      ${input('settings.email','Email')}
+      ${input('settings.instagram','Instagram')}
+      ${input('settings.instagramUrl','Link Instagram')}
+      ${input('settings.city','Città')}
+      ${input('settings.albo','Iscrizione albo')}
+      ${input('settings.piva','P.IVA')}
+    </div>
+    ${textarea('settings.address','Indirizzo')}
+    ${textarea('settings.footerText','Testo footer')}`, true);
+
+  html+=sectionBasic('hero','Hero / Prima schermata',['eyebrow','title','subtitle','primaryButton','secondaryButton','badgeTop','badgeBottom'],true);
+  html+=listObjects('parents.items','Genitori',['parents'][0],['title','text']);
+  html+=textarea('parents.ctaTitle','Titolo box genitori');
+  html+=textarea('parents.ctaText','Testo box genitori');
+  html+=input('parents.ctaButton','Testo pulsante genitori');
+  html+=listObjects('services.items','Servizi','services',['title','text']);
+  html+=listStrings('bes.items','BES e DSA','bes');
+  html+=listObjects('cognitive.items','Stimolazione cognitiva','cognitive',['title','text']);
+  html+=sectionBasic('about','Chi sono',['eyebrow','title','text','name','subtitle','alboText'],true);
+  html+=listStrings('process.items','Primo colloquio','process');
+  html+=listObjects('articles.items','Articoli','articles',['title','text']);
+  html+=listObjects('bootcamps.items','Boot camp / locandine','bootcamps',['title','period','text','image']);
+  html+=sectionBasic('contact','Contatti',['eyebrow','title','text']);
+
+  document.getElementById('tab-content').innerHTML=html;
+}
+
+function renderStyle(){
+  const html1 = details('Colori e font',
+    `<div class="row">
+      ${color('settings.primaryColor','Colore principale')}
+      ${color('settings.secondaryColor','Colore secondario')}
+      ${color('settings.accentColor','Colore scuro')}
+      ${color('settings.backgroundColor','Sfondo')}
+      ${color('settings.cardColor','Colore box/card')}
+      ${color('settings.textColor','Colore testo')}
+      ${color('settings.mutedColor','Colore testo secondario')}
+      ${select('settings.fontFamily','Font testi',['Inter','Montserrat','Lora','Playfair Display'])}
+      ${select('settings.headingFont','Font titoli',['Playfair Display','Inter','Montserrat','Lora'])}
+    </div>`, true);
+
+  const html2 = details('Spazi e grandezze',
+    `<div class="row">
+      ${number('settings.titleSize','Grandezza titolo principale')}
+      ${number('settings.sectionTitleSize','Grandezza titoli sezioni')}
+      ${number('settings.textSize','Grandezza testo')}
+      ${number('settings.menuSize','Grandezza menu')}
+      ${number('settings.radius','Arrotondamento box')}
+      ${number('settings.buttonRadius','Arrotondamento pulsanti')}
+      ${number('settings.containerWidth','Larghezza sito')}
+      ${number('settings.sectionSpacing','Spazio tra sezioni')}
+      ${select('settings.alignment','Allineamento testi',['left','center','right'])}
+      ${select('settings.menuPosition','Posizione menu',['left','center','right'])}
+    </div>`, true);
+
+  document.getElementById('tab-style').innerHTML=html1+html2;
+}
+
+function renderMenu(){
+  let navHtml='';
+  (site.nav||[]).forEach((n,i)=>{
+    navHtml+=`<div class="item"><div class="item-head"><b>Voce menu ${i+1}</b><div class="mini-actions">
+      <button type="button" class="move" onclick="moveItem('nav',${i},-1)">↑</button>
+      <button type="button" class="move" onclick="moveItem('nav',${i},1)">↓</button>
+      <button type="button" class="danger" onclick="removeItem('nav',${i})">Elimina</button>
+    </div></div>
+    ${checkbox(`nav.${i}.visible`,'Visibile')}
+    ${input(`nav.${i}.label`,'Nome voce')}
+    ${input(`nav.${i}.href`,'Link / ancora')}
+    </div>`;
+  });
+  navHtml+=`<button type="button" class="add" onclick="addObject('nav',{label:'Nuova voce',href:'#',visible:true})">+ Aggiungi voce menu</button>`;
+
+  let orderHtml='<p class="hint">Qui decidi l’ordine delle sezioni nel sito. Usa le frecce per spostarle.</p>';
+  (site.sectionOrder||[]).forEach((key,i)=>{
+    orderHtml+=`<div class="item"><div class="item-head"><b>${sectionLabels[key] || key}</b><div class="mini-actions">
+      <button type="button" class="move" onclick="moveItem('sectionOrder',${i},-1)">↑</button>
+      <button type="button" class="move" onclick="moveItem('sectionOrder',${i},1)">↓</button>
+    </div></div></div>`;
+  });
+
+  document.getElementById('tab-menu').innerHTML=details('Menu sito',navHtml,true)+details('Ordine sezioni',orderHtml,true);
+}
+
+function jumpAdminSection(title){
+  if(!title) return;
+  document.querySelectorAll('.group').forEach(g=>{
+    const s=g.querySelector('summary');
+    if(s && s.textContent.trim()===title){
+      g.open=true;
+      g.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+  });
+}
+
+function render(){
+  renderContent();
+  renderStyle();
+  renderMenu();
+  refreshJson();
+}
+render();

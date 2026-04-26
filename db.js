@@ -29,7 +29,6 @@ function upgradeSite(saved) {
   site.settings.whatsapp = "393925229478";
   site.settings.instagram = "liciataurino.psicologa";
   site.settings.instagramUrl = "https://www.instagram.com/liciataurino.psicologa/";
-  site.settings.whatsappMessage = site.settings.whatsappMessage || "Buongiorno Dott.ssa Taurino, vorrei ricevere informazioni per prenotare un primo colloquio.";
   site.settings.albo = "Iscrizione nr. 8233";
 
   site.hero.image = site.hero.image || "/img/licia-taurino.jpg";
@@ -46,14 +45,25 @@ function upgradeSite(saved) {
   if (!Array.isArray(site.sectionOrder) || site.sectionOrder.length === 0) {
     site.sectionOrder = defaultSite.sectionOrder;
   }
+  if (!site.sectionOrder.includes("parents")) {
+    const index = site.sectionOrder.indexOf("services");
+    if (index >= 0) site.sectionOrder.splice(index, 0, "parents");
+    else site.sectionOrder.unshift("parents");
+  }
   if (!site.sectionOrder.includes("cognitive")) {
     const index = site.sectionOrder.indexOf("bes");
     if (index >= 0) site.sectionOrder.splice(index + 1, 0, "cognitive");
     else site.sectionOrder.push("cognitive");
   }
+  if (!site.sectionOrder.includes("bootcamps")) {
+    const index = site.sectionOrder.indexOf("contact");
+    if (index >= 0) site.sectionOrder.splice(index, 0, "bootcamps");
+    else site.sectionOrder.push("bootcamps");
+  }
 
   site.cognitive = deepMerge(defaultSite.cognitive, site.cognitive || {});
-  site.styles = site.styles || {};
+  site.parents = deepMerge(defaultSite.parents, site.parents || {});
+  site.bootcamps = deepMerge(defaultSite.bootcamps, site.bootcamps || {});
   return site;
 }
 

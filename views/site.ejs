@@ -32,83 +32,99 @@
     }
   </style>
 </head>
-<% 
-function styleAttr(key){
-  const s = (site.styles && site.styles[key]) || {};
-  let out = '';
-  if(s.color) out += 'color:' + s.color + ';';
-  if(s.background) out += 'background:' + s.background + ';';
-  if(s.fontSize) out += 'font-size:' + s.fontSize + 'px;';
-  if(s.bold) out += 'font-weight:900;';
-  if(s.align) out += 'text-align:' + s.align + ';';
-  if(s.width) out += 'width:' + s.width + '%;';
-  if(s.height) out += 'height:' + s.height + 'px;';
-  if(s.paddingTop) out += 'padding-top:' + s.paddingTop + 'px;';
-  if(s.paddingBottom) out += 'padding-bottom:' + s.paddingBottom + 'px;';
-  if(s.radius) out += 'border-radius:' + s.radius + 'px;';
-  if(s.objectPosition) out += 'object-position:' + s.objectPosition + ';';
-  return out;
-}
-const waLink = "https://wa.me/" + site.settings.whatsapp + "?text=" + encodeURIComponent(site.settings.whatsappMessage || "Buongiorno Dott.ssa Taurino, vorrei ricevere informazioni per prenotare un primo colloquio.");
-%>
 <body class="<%= preview ? 'preview-mode' : '' %>">
-  <header class="hero" id="home" style="<%= styleAttr('hero.section') %>">
+  <header class="hero" id="home">
     <div class="ambient ambient-one"></div>
     <div class="ambient ambient-two"></div>
 
-    <nav class="nav glass menu-<%= site.settings.menuPosition || 'center' %>" style="<%= styleAttr('menu.bar') %>">
+    <nav class="nav glass menu-<%= site.settings.menuPosition || 'center' %>">
       <a class="brand" href="#home">
-        <span class="brand-logo" style="<%= styleAttr('menu.logo') %>"><%= site.settings.logoText %></span>
+        <span class="brand-logo"><%= site.settings.logoText %></span>
         <span>
-          <small style="<%= styleAttr('menu.profession') %>"><%= site.settings.profession || 'Psicologa' %></small>
-          <strong style="<%= styleAttr('menu.siteName') %>"><%= site.settings.siteName %></strong>
+          <small><%= site.settings.profession || 'Psicologa' %></small>
+          <strong><%= site.settings.siteName %></strong>
         </span>
       </a>
+
       <button class="menu-toggle" type="button" onclick="document.body.classList.toggle('menu-open')" aria-label="Apri menu">☰ Menu</button>
+
       <div class="nav-links dropdown-menu">
-        <% site.nav.filter(n => n.visible !== false).forEach(function(item, i){ %>
-          <a href="<%= item.href %>" onclick="document.body.classList.remove('menu-open')" style="<%= styleAttr('nav.'+i) %>"><%= item.label %></a>
+        <% site.nav.filter(n => n.visible !== false).forEach(function(item){ %>
+          <a href="<%= item.href %>" onclick="document.body.classList.remove('menu-open')"><%= item.label %></a>
         <% }) %>
       </div>
-      <a class="btn small nav-cta" href="<%= waLink %>" target="_blank" rel="noopener" style="<%= styleAttr('menu.button') %>">Prenota</a>
+
+      <a class="btn small nav-cta" href="https://wa.me/<%= site.settings.whatsapp %>" target="_blank" rel="noopener">Prenota</a>
     </nav>
 
     <% if(site.hero.visible){ %>
     <section class="hero-grid container editable-align hero-layout-<%= site.hero.layout || 'text-left' %>">
       <div class="hero-copy reveal">
-        <p class="eyebrow" style="<%= styleAttr('hero.eyebrow') %>"><%= site.hero.eyebrow %></p>
-        <h1 style="<%= styleAttr('hero.title') %>"><%= site.hero.title %></h1>
-        <p class="lead" style="<%= styleAttr('hero.subtitle') %>"><%= site.hero.subtitle %></p>
+        <p class="eyebrow"><%= site.hero.eyebrow %></p>
+        <h1><%= site.hero.title %></h1>
+        <p class="lead"><%= site.hero.subtitle %></p>
         <div class="actions">
-          <a class="btn" href="<%= waLink %>" target="_blank" rel="noopener" style="<%= styleAttr('hero.primaryButton') %>">💬 <%= site.hero.primaryButton %></a>
-          <a class="btn ghost" href="#servizi" style="<%= styleAttr('hero.secondaryButton') %>"><%= site.hero.secondaryButton %> →</a>
+          <a class="btn" href="https://wa.me/<%= site.settings.whatsapp %>" target="_blank" rel="noopener">💬 <%= site.hero.primaryButton %></a>
+          <a class="btn ghost" href="#servizi"><%= site.hero.secondaryButton %> →</a>
         </div>
       </div>
-      <div class="hero-card reveal delay" style="<%= styleAttr('hero.imageCard') %>">
+
+      <div class="hero-card reveal delay">
         <% if(site.hero.image){ %>
-          <img src="<%= site.hero.image %>" alt="<%= site.settings.siteName %>" style="object-position:<%= site.hero.imagePosition || 'center top' %>;<%= styleAttr('hero.image') %>">
-        <% } else { %><div class="portrait-placeholder">ψ</div><% } %>
-        <div class="floating-card top" style="<%= styleAttr('hero.badgeTop') %>"><%= site.hero.badgeTop || 'Studio Psicologico' %></div>
-        <div class="floating-card bottom" style="<%= styleAttr('hero.badgeBottom') %>"><%= site.hero.badgeBottom || 'Ascolto · Cura · Crescita' %></div>
+          <img src="<%= site.hero.image %>" alt="<%= site.settings.siteName %>" style="object-position:<%= site.hero.imagePosition || 'center top' %>">
+        <% } else { %>
+          <div class="portrait-placeholder">ψ</div>
+        <% } %>
+        <div class="floating-card top"><%= site.hero.badgeTop || 'Studio Psicologico' %></div>
+        <div class="floating-card bottom"><%= site.hero.badgeBottom || 'Ascolto · Cura · Crescita' %></div>
       </div>
     </section>
     <% } %>
   </header>
 
+
+  <% function renderParents(){ %>
+    <% if(site.parents && site.parents.visible){ %>
+    <section class="section container parents-section" id="genitori">
+      <div class="parents-layout">
+        <div class="parents-intro">
+          <p class="eyebrow"><%= site.parents.eyebrow %></p>
+          <h2><%= site.parents.title %></h2>
+          <p class="lead"><%= site.parents.text %></p>
+          <div class="parents-cta">
+            <h3><%= site.parents.ctaTitle %></h3>
+            <p><%= site.parents.ctaText %></p>
+            <a class="btn" href="<%= waLink %>" target="_blank" rel="noopener"><%= site.parents.ctaButton %></a>
+          </div>
+        </div>
+        <div class="parents-cards">
+          <% site.parents.items.forEach(function(item){ %>
+          <article class="parent-card">
+            <span>✓</span>
+            <h3><%= item.title %></h3>
+            <p><%= item.text %></p>
+          </article>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+    <% } %>
+  <% } %>
+
   <% function renderServices(){ %>
     <% if(site.services.visible){ %>
-    <section class="section container" id="servizi" style="<%= styleAttr('services.section') %>">
+    <section class="section container" id="servizi">
       <div class="section-head">
-        <p class="eyebrow" style="<%= styleAttr('services.eyebrow') %>"><%= site.services.eyebrow %></p>
-        <h2 style="<%= styleAttr('services.title') %>"><%= site.services.title %></h2>
-        <% if(site.services.text){ %><p class="lead narrow" style="<%= styleAttr('services.text') %>"><%= site.services.text %></p><% } %>
+        <p class="eyebrow"><%= site.services.eyebrow %></p>
+        <h2><%= site.services.title %></h2>
+        <% if(site.services.text){ %><p class="lead narrow"><%= site.services.text %></p><% } %>
       </div>
       <div class="cards <%= site.services.layout === 'grid-3' ? 'three' : 'four' %>">
-        <% site.services.items.forEach(function(s, i){ %>
-        <article class="card" style="<%= styleAttr('services.items.'+i+'.card') %>">
+        <% site.services.items.forEach(function(s){ %>
+        <article class="card">
           <span class="icon">✦</span>
-          <h3 style="<%= styleAttr('services.items.'+i+'.title') %>"><%= s.title %></h3>
-          <p style="<%= styleAttr('services.items.'+i+'.text') %>"><%= s.text %></p>
+          <h3><%= s.title %></h3>
+          <p><%= s.text %></p>
         </article>
         <% }) %>
       </div>
@@ -118,15 +134,15 @@ const waLink = "https://wa.me/" + site.settings.whatsapp + "?text=" + encodeURIC
 
   <% function renderBes(){ %>
     <% if(site.bes.visible){ %>
-    <section class="section dark" id="bes" style="<%= styleAttr('bes.section') %>">
+    <section class="section dark" id="bes">
       <div class="container split">
         <div>
-          <p class="eyebrow" style="<%= styleAttr('bes.eyebrow') %>"><%= site.bes.eyebrow %></p>
-          <h2 style="<%= styleAttr('bes.title') %>"><%= site.bes.title %></h2>
-          <p class="lead" style="<%= styleAttr('bes.text') %>"><%= site.bes.text %></p>
+          <p class="eyebrow"><%= site.bes.eyebrow %></p>
+          <h2><%= site.bes.title %></h2>
+          <p class="lead"><%= site.bes.text %></p>
         </div>
         <div class="chips">
-          <% site.bes.items.forEach(function(item, i){ %><span style="<%= styleAttr('bes.items.'+i) %>">✓ <%= item %></span><% }) %>
+          <% site.bes.items.forEach(function(item){ %><span>✓ <%= item %></span><% }) %>
         </div>
       </div>
     </section>
@@ -135,18 +151,18 @@ const waLink = "https://wa.me/" + site.settings.whatsapp + "?text=" + encodeURIC
 
   <% function renderCognitive(){ %>
     <% if(site.cognitive && site.cognitive.visible){ %>
-    <section class="section container cognitive-section" id="stimolazione" style="<%= styleAttr('cognitive.section') %>">
+    <section class="section container cognitive-section" id="stimolazione">
       <div class="section-head">
-        <p class="eyebrow" style="<%= styleAttr('cognitive.eyebrow') %>"><%= site.cognitive.eyebrow %></p>
-        <h2 style="<%= styleAttr('cognitive.title') %>"><%= site.cognitive.title %></h2>
-        <p class="lead narrow" style="<%= styleAttr('cognitive.text') %>"><%= site.cognitive.text %></p>
+        <p class="eyebrow"><%= site.cognitive.eyebrow %></p>
+        <h2><%= site.cognitive.title %></h2>
+        <p class="lead narrow"><%= site.cognitive.text %></p>
       </div>
       <div class="cards three neuro-cards">
-        <% site.cognitive.items.forEach(function(item, i){ %>
-        <article class="card neuro-card" style="<%= styleAttr('cognitive.items.'+i+'.card') %>">
+        <% site.cognitive.items.forEach(function(item){ %>
+        <article class="card neuro-card">
           <span class="icon">🧠</span>
-          <h3 style="<%= styleAttr('cognitive.items.'+i+'.title') %>"><%= item.title %></h3>
-          <p style="<%= styleAttr('cognitive.items.'+i+'.text') %>"><%= item.text %></p>
+          <h3><%= item.title %></h3>
+          <p><%= item.text %></p>
         </article>
         <% }) %>
       </div>
@@ -156,19 +172,23 @@ const waLink = "https://wa.me/" + site.settings.whatsapp + "?text=" + encodeURIC
 
   <% function renderAbout(){ %>
     <% if(site.about.visible){ %>
-    <section class="section container split about-section about-layout-<%= site.about.layout || 'photo-left' %>" id="chi-sono" style="<%= styleAttr('about.section') %>">
-      <div class="about-profile-card" style="<%= styleAttr('about.imageCard') %>">
-        <% if(site.about.image){ %><img src="<%= site.about.image %>" alt="<%= site.about.name || 'Licia Taurino' %>" style="object-position:<%= site.about.imagePosition || 'center top' %>;<%= styleAttr('about.image') %>"><% } else { %><div class="portrait-placeholder small">LT</div><% } %>
+    <section class="section container split about-section about-layout-<%= site.about.layout || 'photo-left' %>" id="chi-sono">
+      <div class="about-profile-card">
+        <% if(site.about.image){ %>
+          <img src="<%= site.about.image %>" alt="<%= site.about.name || 'Licia Taurino' %>" style="object-position:<%= site.about.imagePosition || 'center top' %>">
+        <% } else { %>
+          <div class="portrait-placeholder small">LT</div>
+        <% } %>
         <div class="about-profile-text">
-          <h3 style="<%= styleAttr('about.name') %>"><%= site.about.name || 'LICIA TAURINO' %></h3>
-          <% if(site.about.subtitle){ %><p style="<%= styleAttr('about.subtitle') %>"><%= site.about.subtitle %></p><% } %>
-          <p style="<%= styleAttr('about.alboText') %>"><%= site.about.alboText || site.settings.albo %></p>
+          <h3><%= site.about.name || 'LICIA TAURINO' %></h3>
+          <% if(site.about.subtitle){ %><p><%= site.about.subtitle %></p><% } %>
+          <p><%= site.about.alboText || site.settings.albo %></p>
         </div>
       </div>
       <div class="about-copy">
-        <p class="eyebrow" style="<%= styleAttr('about.eyebrow') %>"><%= site.about.eyebrow %></p>
-        <h2 style="<%= styleAttr('about.title') %>"><%= site.about.title %></h2>
-        <p class="lead" style="<%= styleAttr('about.text') %>"><%= site.about.text %></p>
+        <p class="eyebrow"><%= site.about.eyebrow %></p>
+        <h2><%= site.about.title %></h2>
+        <p class="lead"><%= site.about.text %></p>
       </div>
     </section>
     <% } %>
@@ -176,15 +196,17 @@ const waLink = "https://wa.me/" + site.settings.whatsapp + "?text=" + encodeURIC
 
   <% function renderProcess(){ %>
     <% if(site.process.visible){ %>
-    <section class="section container" id="percorso" style="<%= styleAttr('process.section') %>">
-      <div class="process-box" style="<%= styleAttr('process.box') %>">
+    <section class="section container" id="percorso">
+      <div class="process-box">
         <div>
-          <p class="eyebrow" style="<%= styleAttr('process.eyebrow') %>"><%= site.process.eyebrow %></p>
-          <h2 style="<%= styleAttr('process.title') %>"><%= site.process.title %></h2>
-          <p style="<%= styleAttr('process.text') %>"><%= site.process.text %></p>
+          <p class="eyebrow"><%= site.process.eyebrow %></p>
+          <h2><%= site.process.title %></h2>
+          <p><%= site.process.text %></p>
         </div>
         <div class="steps">
-          <% site.process.items.forEach(function(step, i){ %><div class="step" style="<%= styleAttr('process.items.'+i) %>"><b><%= i + 1 %></b><span><%= step %></span></div><% }) %>
+          <% site.process.items.forEach(function(step, i){ %>
+            <div class="step"><b><%= i + 1 %></b><span><%= step %></span></div>
+          <% }) %>
         </div>
       </div>
     </section>
@@ -193,18 +215,53 @@ const waLink = "https://wa.me/" + site.settings.whatsapp + "?text=" + encodeURIC
 
   <% function renderArticles(){ %>
     <% if(site.articles.visible){ %>
-    <section class="section container" id="articoli" style="<%= styleAttr('articles.section') %>">
+    <section class="section container" id="articoli">
       <div class="section-head">
-        <p class="eyebrow" style="<%= styleAttr('articles.eyebrow') %>"><%= site.articles.eyebrow %></p>
-        <h2 style="<%= styleAttr('articles.title') %>"><%= site.articles.title %></h2>
-        <p class="lead narrow" style="<%= styleAttr('articles.text') %>"><%= site.articles.text %></p>
+        <p class="eyebrow"><%= site.articles.eyebrow %></p>
+        <h2><%= site.articles.title %></h2>
+        <p class="lead narrow"><%= site.articles.text %></p>
       </div>
       <div class="cards three">
-        <% site.articles.items.forEach(function(a, i){ %>
-        <article class="card article" style="<%= styleAttr('articles.items.'+i+'.card') %>">
-          <h3 style="<%= styleAttr('articles.items.'+i+'.title') %>"><%= a.title %></h3>
-          <p style="<%= styleAttr('articles.items.'+i+'.text') %>"><%= a.text %></p>
+        <% site.articles.items.forEach(function(a){ %>
+        <article class="card article">
+          <h3><%= a.title %></h3>
+          <p><%= a.text %></p>
           <a href="#contatti">Richiedi informazioni →</a>
+        </article>
+        <% }) %>
+      </div>
+    </section>
+    <% } %>
+  <% } %>
+
+
+  <% function renderBootcamps(){ %>
+    <% if(site.bootcamps && site.bootcamps.visible){ %>
+    <section class="section container bootcamp-section" id="bootcamp">
+      <div class="section-head">
+        <p class="eyebrow"><%= site.bootcamps.eyebrow %></p>
+        <h2><%= site.bootcamps.title %></h2>
+        <p class="lead narrow"><%= site.bootcamps.text %></p>
+      </div>
+      <div class="bootcamp-grid">
+        <% site.bootcamps.items.forEach(function(item){ %>
+        <article class="bootcamp-card">
+          <div class="poster-box">
+            <% if(item.image){ %>
+              <img src="<%= item.image %>" alt="<%= item.title %>">
+            <% } else { %>
+              <div class="poster-placeholder">
+                <span>Locandina</span>
+                <b><%= item.period %></b>
+              </div>
+            <% } %>
+          </div>
+          <div class="bootcamp-info">
+            <small><%= item.period %></small>
+            <h3><%= item.title %></h3>
+            <p><%= item.text %></p>
+            <a href="<%= waLink %>" target="_blank" rel="noopener">Richiedi informazioni →</a>
+          </div>
         </article>
         <% }) %>
       </div>
@@ -214,19 +271,19 @@ const waLink = "https://wa.me/" + site.settings.whatsapp + "?text=" + encodeURIC
 
   <% function renderContact(){ %>
     <% if(site.contact.visible){ %>
-    <section class="section contact" id="contatti" style="<%= styleAttr('contact.section') %>">
+    <section class="section contact" id="contatti">
       <div class="container">
         <div class="section-head">
-          <p class="eyebrow" style="<%= styleAttr('contact.eyebrow') %>"><%= site.contact.eyebrow %></p>
-          <h2 style="<%= styleAttr('contact.title') %>"><%= site.contact.title %></h2>
-          <p class="lead narrow" style="<%= styleAttr('contact.text') %>"><%= site.contact.text %></p>
+          <p class="eyebrow"><%= site.contact.eyebrow %></p>
+          <h2><%= site.contact.title %></h2>
+          <p class="lead narrow"><%= site.contact.text %></p>
         </div>
-        <div class="contact-grid contact-grid-refined">
-          <a href="tel:<%= site.settings.phone.replace(/\s/g,'') %>" class="contact-card" style="<%= styleAttr('contact.phoneCard') %>"><small>Chiamata diretta</small><b>Telefono</b><span><%= site.settings.phone %></span></a>
-          <a href="<%= waLink %>" target="_blank" rel="noopener" class="contact-card featured" style="<%= styleAttr('contact.whatsappCard') %>"><small>Messaggio già pronto</small><b>WhatsApp</b><span><%= site.settings.phone %></span></a>
-          <a href="<%= site.settings.instagramUrl %>" target="_blank" rel="noopener" class="contact-card" style="<%= styleAttr('contact.instagramCard') %>"><small>Profilo professionale</small><b>Instagram</b><span>@<%= site.settings.instagram %></span></a>
-          <a href="mailto:<%= site.settings.email %>" class="contact-card" style="<%= styleAttr('contact.emailCard') %>"><small>Scrivi una email</small><b>Email</b><span><%= site.settings.email %></span></a>
-          <div class="contact-card" style="<%= styleAttr('contact.studioCard') %>"><small>Ricevimento</small><b>Studio</b><span><%= site.settings.address %><br><%= site.settings.city %></span></div>
+        <div class="contact-grid">
+          <a href="tel:<%= site.settings.phone.replace(/\s/g,'') %>"><b>Telefono</b><span><%= site.settings.phone %></span></a>
+          <a href="https://wa.me/<%= site.settings.whatsapp %>" target="_blank" rel="noopener"><b>WhatsApp</b><span><%= site.settings.phone %></span></a>
+          <a href="<%= site.settings.instagramUrl %>" target="_blank" rel="noopener"><b>Instagram</b><span>@<%= site.settings.instagram %></span></a>
+          <a href="mailto:<%= site.settings.email %>"><b>Email</b><span><%= site.settings.email %></span></a>
+          <div><b>Studio</b><span><%= site.settings.address %><br><%= site.settings.city %></span></div>
         </div>
       </div>
     </section>
@@ -234,19 +291,21 @@ const waLink = "https://wa.me/" + site.settings.whatsapp + "?text=" + encodeURIC
   <% } %>
 
   <% (site.sectionOrder || ['services','bes','cognitive','about','process','articles','contact']).forEach(function(section){ %>
+    <% if(section === 'parents'){ renderParents(); } %>
     <% if(section === 'services'){ renderServices(); } %>
     <% if(section === 'bes'){ renderBes(); } %>
     <% if(section === 'cognitive'){ renderCognitive(); } %>
     <% if(section === 'about'){ renderAbout(); } %>
+    <% if(section === 'bootcamps'){ renderBootcamps(); } %>
     <% if(section === 'process'){ renderProcess(); } %>
     <% if(section === 'articles'){ renderArticles(); } %>
     <% if(section === 'contact'){ renderContact(); } %>
   <% }) %>
 
-  <footer style="<%= styleAttr('footer.section') %>">
+  <footer>
     <div class="container footer-grid">
-      <p style="<%= styleAttr('footer.left') %>">© 2026 <%= site.settings.siteName %>. Tutti i diritti riservati.</p>
-      <p style="<%= styleAttr('footer.right') %>"><%= site.settings.albo %> · <%= site.settings.piva %> · <a href="<%= site.settings.instagramUrl %>" target="_blank" rel="noopener">@<%= site.settings.instagram %></a> · <%= site.settings.footerText %></p>
+      <p>© 2026 <%= site.settings.siteName %>. Tutti i diritti riservati.</p>
+      <p><%= site.settings.albo %> · <%= site.settings.piva %> · <a href="<%= site.settings.instagramUrl %>" target="_blank" rel="noopener">@<%= site.settings.instagram %></a> · <%= site.settings.footerText %></p>
     </div>
   </footer>
 </body>

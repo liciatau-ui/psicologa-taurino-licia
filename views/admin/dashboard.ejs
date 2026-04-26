@@ -2,51 +2,82 @@
 <html lang="it">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin visuale - Psicologa Taurino Licia</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@600;700;800&family=Montserrat:wght@300;400;500;600;700;800;900&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
+  <title>Admin - Psicologa Taurino Licia</title>
   <link rel="stylesheet" href="/css/admin.css">
 </head>
-<body class="visual-admin-body">
-  <form method="post" action="/admin/save" id="saveForm" onsubmit="prepareSave(event)">
-    <input type="hidden" name="siteJson" id="siteJson">
-  </form>
-
-  <div class="visual-admin">
-    <aside class="admin-side">
-      <div class="admin-brand-mini"><span>LT</span><div><b>Admin visuale</b><small>clicca sul sito e modifica</small></div></div>
-      <button class="save-main" form="saveForm">Salva modifiche</button>
-      <a class="side-link" href="/" target="_blank">Apri sito pubblico</a>
-      <button class="side-link" type="button" onclick="selectGlobal()">Impostazioni generali</button>
-      <button class="side-link" type="button" onclick="selectMenuManager()">Menu e ordine sezioni</button>
-      <% if(saved){ %><div class="saved-pill">Salvato ✅</div><% } %>
-      <p class="side-help">Suggerimento: clicca una scritta, una foto, un box, una sezione o una voce menu. A destra compaiono le impostazioni.</p>
-      <form method="post" action="/admin/logout"><button class="logout-btn">Esci</button></form>
+<body>
+  <div class="admin-shell">
+    <aside>
+      <div class="admin-logo">LT</div>
+      <h1>Admin sito</h1>
+      <p>Modifica contenuti, grafica, menu, ordine sezioni, immagini e layout.</p>
+      <a class="open-site" href="/" target="_blank">Apri sito</a>
+      <a class="open-site ghost" href="/preview" target="_blank">Anteprima</a>
+      <form method="post" action="/admin/logout"><button class="secondary">Esci</button></form>
     </aside>
 
-    <main class="visual-canvas-wrap">
-      <div class="canvas-topbar">
-        <strong>Anteprima modificabile</strong>
-        <span id="selectedLabel">Nessun elemento selezionato</span>
-        <button type="button" onclick="renderVisualSite()">Aggiorna</button>
+    <main>
+      <% if(saved){ %><div class="saved">Modifiche salvate correttamente.</div><% } %>
+
+      <div class="toolbar">
+        <button type="button" onclick="showTab('content')">Contenuti</button>
+        <button type="button" onclick="showTab('style')">Grafica e layout</button>
+        <button type="button" onclick="showTab('menu')">Menu e ordine</button>
+        <button type="button" onclick="showTab('json')">Avanzato</button>
+
+        <select class="admin-jump" onchange="jumpAdminSection(this.value);this.value=''">
+          <option value="">Vai a una sezione...</option>
+          <option value="Impostazioni generali">Impostazioni generali</option>
+          <option value="Hero / Prima schermata">Hero / Prima schermata</option>
+          <option value="Genitori">Genitori</option>
+          <option value="Servizi">Servizi</option>
+          <option value="BES e DSA">BES e DSA</option>
+          <option value="Stimolazione cognitiva">Stimolazione cognitiva</option>
+          <option value="Chi sono">Chi sono</option>
+          <option value="Primo colloquio">Primo colloquio</option>
+          <option value="Articoli">Articoli</option>
+          <option value="Boot camp / locandine">Boot camp / locandine</option>
+          <option value="Contatti">Contatti</option>
+          <option value="Colori e font">Colori e font</option>
+          <option value="Spazi e grandezze">Spazi e grandezze</option>
+          <option value="Menu sito">Menu sito</option>
+          <option value="Ordine sezioni">Ordine sezioni</option>
+        </select>
+
+        <form method="post" action="/admin/save" onsubmit="syncAndSave(event)" class="save-form">
+          <input type="hidden" name="siteJson" id="siteJson">
+          <button class="save">Salva tutto</button>
+        </form>
       </div>
-      <div id="visualSite" class="visual-site"></div>
+
+      <div class="workspace">
+        <section class="editor">
+          <div id="tab-content" class="tab active"></div>
+          <div id="tab-style" class="tab"></div>
+          <div id="tab-menu" class="tab"></div>
+          <div id="tab-json" class="tab">
+            <details class="group" open>
+              <summary>JSON avanzato</summary>
+              <p class="hint">Usalo solo se sai cosa stai modificando. Prima di salvare controlla che il JSON sia valido.</p>
+              <textarea id="jsonArea"></textarea>
+            </details>
+          </div>
+        </section>
+
+        <section class="preview">
+          <div class="preview-head">
+            <b>Anteprima sito</b>
+            <button type="button" onclick="refreshPreview()">Aggiorna anteprima</button>
+          </div>
+          <iframe id="previewFrame" src="/preview"></iframe>
+        </section>
+      </div>
     </main>
-
-    <aside class="inspector">
-      <div class="inspector-head">
-        <h2>Impostazioni</h2>
-        <p id="inspectorSub">Clicca un elemento del sito.</p>
-      </div>
-      <div id="inspectorContent" class="inspector-content empty-state">
-        <p>Seleziona una scritta, immagine, box o sezione per modificarla.</p>
-      </div>
-    </aside>
   </div>
 
-<script>let site = <%- JSON.stringify(site) %>;</script>
+<script>
+let site = <%- JSON.stringify(site) %>;
+</script>
 <script src="/js/admin.js"></script>
 </body>
 </html>

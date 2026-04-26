@@ -31,37 +31,66 @@ const defaultSite = {
     city: "Leverano / Lecce",
     albo: "Iscrizione nr. 8233",
     piva: "P.IVA da inserire",
-    footerText: "Privacy Policy · Cookie Policy",
-    whatsappMessage: "Buongiorno Dott.ssa Taurino, vorrei ricevere informazioni per prenotare un primo colloquio."
+    footerText: "Privacy Policy · Cookie Policy"
   },
   nav: [
     { label: "Home", href: "#home", visible: true },
+    { label: "Genitori", href: "#genitori", visible: true },
     { label: "Servizi", href: "#servizi", visible: true },
     { label: "BES e DSA", href: "#bes", visible: true },
     { label: "Stimolazione cognitiva", href: "#stimolazione", visible: true },
     { label: "Chi sono", href: "#chi-sono", visible: true },
+    { label: "Boot camp", href: "#bootcamp", visible: true },
     { label: "Contatti", href: "#contatti", visible: true }
   ],
-  sectionOrder: ["services", "bes", "cognitive", "about", "process", "articles", "contact"],
+  sectionOrder: ["parents", "services", "bes", "cognitive", "about", "bootcamps", "process", "articles", "contact"],
   hero: {
     visible: true,
     layout: "text-left",
     eyebrow: "Studio psicologico · Età evolutiva · Adulti · Famiglie",
-    title: "Uno spazio professionale per ascoltare, comprendere e ritrovare equilibrio.",
-    subtitle: "La Dott.ssa Licia Taurino accompagna bambini, adolescenti, adulti e famiglie attraverso percorsi di sostegno psicologico, consulenza e stimolazione cognitiva, con un approccio accogliente, chiaro e personalizzato.",
-    primaryButton: "Prenota un colloquio",
-    secondaryButton: "Scopri i percorsi",
+    title: "Un aiuto concreto per bambini, ragazzi e genitori.",
+    subtitle: "Uno spazio sicuro in cui ogni genitore può trovare ascolto, orientamento e strumenti pratici per comprendere meglio il proprio figlio e accompagnarlo nelle difficoltà emotive, scolastiche e relazionali.",
+    primaryButton: "Parla con la Dott.ssa",
+    secondaryButton: "Percorsi per tuo figlio",
     image: "/img/licia-taurino.jpg",
     imagePosition: "center top",
     badgeTop: "Studio Psicologico",
-    badgeBottom: "Ascolto · Cura · Crescita"
+    badgeBottom: "Bambini · Ragazzi · Genitori"
+  },
+  parents: {
+    visible: true,
+    layout: "split-cards",
+    eyebrow: "Per i genitori",
+    title: "Quando chiedere aiuto per tuo figlio?",
+    text: "Non serve aspettare che una difficoltà diventi grande. Un confronto con una professionista può aiutare a leggere i segnali, capire cosa sta succedendo e scegliere il percorso più adatto.",
+    items: [
+      { title: "Difficoltà a scuola", text: "Calo del rendimento, poca concentrazione, rifiuto della scuola, ansia da prestazione o fatica nello studio." },
+      { title: "Emozioni difficili", text: "Pianti frequenti, rabbia, paure, chiusura, insicurezza o difficoltà a raccontare ciò che prova." },
+      { title: "Relazioni e comportamento", text: "Difficoltà con coetanei, oppositività, gelosia, cambiamenti improvvisi o fatica nel rispetto delle regole." },
+      { title: "Dubbi dei genitori", text: "Quando non sai se preoccuparti, da dove iniziare o come aiutare tuo figlio nel modo giusto." }
+    ],
+    ctaTitle: "Un primo colloquio può aiutarti a fare chiarezza.",
+    ctaText: "Racconta la situazione e valuta con la Dott.ssa il percorso più indicato.",
+    ctaButton: "Richiedi informazioni"
+  },
+  bootcamps: {
+    visible: true,
+    layout: "poster-grid",
+    eyebrow: "Laboratori e boot camp",
+    title: "Esperienze pensate per bambini e ragazzi.",
+    text: "Durante l’anno possono essere organizzati boot camp e laboratori dedicati a bambini e ragazzi, ad esempio in estate, a Natale o a Pasqua. In questa sezione puoi inserire locandine, date e informazioni utili.",
+    items: [
+      { title: "Boot camp estivo", period: "Estate", text: "Laboratorio dedicato a emozioni, relazione, autostima e strategie per affrontare le piccole grandi sfide quotidiane.", image: "" },
+      { title: "Laboratorio di Natale", period: "Natale", text: "Attività in piccolo gruppo per favorire socializzazione, creatività e benessere emotivo durante le vacanze.", image: "" },
+      { title: "Laboratorio di Pasqua", period: "Pasqua", text: "Percorso breve e mirato con attività psicologiche ed educative pensate per bambini e ragazzi.", image: "" }
+    ]
   },
   services: {
     visible: true,
     layout: "grid-4",
     eyebrow: "Aree di intervento",
     title: "Percorsi pensati per ogni fase della vita.",
-    text: "Ogni intervento viene costruito partendo dai bisogni della persona e dal contesto familiare, scolastico o relazionale.",
+    text: "Quando un bambino o un ragazzo vive una difficoltà, anche il genitore ha bisogno di essere guidato. Ogni percorso nasce dall’ascolto della famiglia e dalla comprensione del bisogno reale."
     items: [
       { title: "Età evolutiva", text: "Supporto per bambini e ragazzi che vivono difficoltà emotive, comportamentali, scolastiche o relazionali." },
       { title: "BES, DSA e scuola", text: "Consulenza per bisogni educativi speciali, difficoltà di apprendimento e collaborazione tra famiglia e scuola." },
@@ -126,13 +155,12 @@ const defaultSite = {
       { title: "Emozioni nei bambini", text: "Riconoscere, nominare e gestire le emozioni nella quotidianità." }
     ]
   },
-  styles: {},
   contact: {
     visible: true,
     layout: "cards",
     eyebrow: "Contatti",
     title: "Prenota un primo colloquio.",
-    text: "Scegli il canale che preferisci per richiedere informazioni o fissare un primo colloquio."
+    text: "Puoi richiedere informazioni tramite telefono, WhatsApp, email o Instagram."
   }
 };
 
