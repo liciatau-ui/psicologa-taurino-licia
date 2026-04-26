@@ -1,13 +1,11 @@
 const sectionLabels = {
-  parents: "Genitori",
   services: "Servizi",
   bes: "BES e DSA",
   cognitive: "Stimolazione cognitiva",
   about: "Chi sono",
   process: "Primo colloquio",
   articles: "Articoli",
-  contact: "Contatti",
-  bootcamps: "Boot camp / locandine"
+  contact: "Contatti"
 };
 
 function showTab(name){
@@ -117,8 +115,6 @@ function labelOf(f){
 function layoutOptions(key){
   if(key==='hero') return ['text-left','image-left'];
   if(key==='about') return ['photo-left','photo-right'];
-  if(key==='parents') return ['split-cards'];
-  if(key==='bootcamps') return ['poster-grid'];
   if(key==='services') return ['grid-4','grid-3'];
   if(key==='bes') return ['dark-split'];
   if(key==='process') return ['steps-right'];
@@ -186,17 +182,12 @@ function renderContent(){
     ${textarea('settings.footerText','Testo footer')}`, true);
 
   html+=sectionBasic('hero','Hero / Prima schermata',['eyebrow','title','subtitle','primaryButton','secondaryButton','badgeTop','badgeBottom'],true);
-  html+=listObjects('parents.items','Genitori',['parents'][0],['title','text']);
-  html+=textarea('parents.ctaTitle','Titolo box genitori');
-  html+=textarea('parents.ctaText','Testo box genitori');
-  html+=input('parents.ctaButton','Testo pulsante genitori');
   html+=listObjects('services.items','Servizi','services',['title','text']);
   html+=listStrings('bes.items','BES e DSA','bes');
   html+=listObjects('cognitive.items','Stimolazione cognitiva','cognitive',['title','text']);
   html+=sectionBasic('about','Chi sono',['eyebrow','title','text','name','subtitle','alboText'],true);
   html+=listStrings('process.items','Primo colloquio','process');
   html+=listObjects('articles.items','Articoli','articles',['title','text']);
-  html+=listObjects('bootcamps.items','Boot camp / locandine','bootcamps',['title','period','text','image']);
   html+=sectionBasic('contact','Contatti',['eyebrow','title','text']);
 
   document.getElementById('tab-content').innerHTML=html;

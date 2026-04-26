@@ -7,9 +7,7 @@ const pool = new Pool({
 });
 
 function deepMerge(defaultObj, savedObj) {
-  if (Array.isArray(defaultObj)) {
-    return Array.isArray(savedObj) ? savedObj : defaultObj;
-  }
+  if (Array.isArray(defaultObj)) return Array.isArray(savedObj) ? savedObj : defaultObj;
   if (defaultObj && typeof defaultObj === 'object') {
     const result = { ...defaultObj };
     if (savedObj && typeof savedObj === 'object') {
@@ -30,40 +28,35 @@ function upgradeSite(saved) {
   site.settings.instagram = "liciataurino.psicologa";
   site.settings.instagramUrl = "https://www.instagram.com/liciataurino.psicologa/";
   site.settings.albo = "Iscrizione nr. 8233";
+  site.settings.whatsappMessage = site.settings.whatsappMessage || "Buongiorno Dott.ssa Taurino, vorrei ricevere informazioni per prenotare un primo colloquio.";
 
   site.hero.image = site.hero.image || "/img/licia-taurino.jpg";
   site.about.image = "/img/licia-taurino.jpg";
   site.about.name = site.about.name || "LICIA TAURINO";
   site.about.alboText = site.about.alboText || "Iscrizione nr. 8233";
 
-  if (!Array.isArray(site.nav)) site.nav = defaultSite.nav;
-  if (!site.nav.some(n => n.href === "#stimolazione")) {
-    site.nav.splice(3, 0, { label: "Stimolazione cognitiva", href: "#stimolazione", visible: true });
-  }
-  site.nav = site.nav.map(n => ({ visible: true, ...n }));
+  site.contact = deepMerge(defaultSite.contact, site.contact || {});
+  site.contact.text = "Scegli il canale che preferisci per richiedere informazioni o fissare un primo colloquio.";
 
-  if (!Array.isArray(site.sectionOrder) || site.sectionOrder.length === 0) {
-    site.sectionOrder = defaultSite.sectionOrder;
-  }
-  if (!site.sectionOrder.includes("parents")) {
-    const index = site.sectionOrder.indexOf("services");
-    if (index >= 0) site.sectionOrder.splice(index, 0, "parents");
-    else site.sectionOrder.unshift("parents");
-  }
-  if (!site.sectionOrder.includes("cognitive")) {
-    const index = site.sectionOrder.indexOf("bes");
-    if (index >= 0) site.sectionOrder.splice(index + 1, 0, "cognitive");
-    else site.sectionOrder.push("cognitive");
-  }
-  if (!site.sectionOrder.includes("bootcamps")) {
-    const index = site.sectionOrder.indexOf("contact");
-    if (index >= 0) site.sectionOrder.splice(index, 0, "bootcamps");
-    else site.sectionOrder.push("bootcamps");
-  }
-
-  site.cognitive = deepMerge(defaultSite.cognitive, site.cognitive || {});
   site.parents = deepMerge(defaultSite.parents, site.parents || {});
   site.bootcamps = deepMerge(defaultSite.bootcamps, site.bootcamps || {});
+  site.cognitive = deepMerge(defaultSite.cognitive, site.cognitive || {});
+
+  if (!Array.isArray(site.nav)) site.nav = defaultSite.nav;
+  [
+    { label: "Genitori", href: "#genitori", visible: true },
+    { label: "Boot camp", href: "#bootcamp", visible: true },
+    { label: "Stimolazione cognitiva", href: "#stimolazione", visible: true }
+  ].forEach(item => {
+    if (!site.nav.some(n => n.href === item.href)) site.nav.push(item);
+  });
+  site.nav = site.nav.map(n => ({ visible: true, ...n }));
+
+  if (!Array.isArray(site.sectionOrder) || site.sectionOrder.length === 0) site.sectionOrder = defaultSite.sectionOrder;
+  ["parents", "services", "bes", "cognitive", "about", "bootcamps", "process", "articles", "contact"].forEach(s => {
+    if (!site.sectionOrder.includes(s)) site.sectionOrder.push(s);
+  });
+
   return site;
 }
 
